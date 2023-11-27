@@ -1,0 +1,37 @@
+*{
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root{
+    --font-anton: 'Anton', sans-serif;
+    --dark-25: #4E4E4E;
+    --dark-50: #3B3B3B;
+    --dark-100: #282022;
+    --pink: #EB8AAD;
+    --pink-hover: #d05b85;
+    --yellow: #FFDE5D;
+
+}
+
+html{
+    font-family: 'Anton', sans-serif;
+    font-family: 'Khand', sans-serif;
+
+    font-size: clamp(0.75rem, 1vw, 1rem)
+}
+
+h1,h2,h3,h4,h5,h6,p,ul,li,ol,a,button, img{
+    all: unset;
+}
+
+
+a, button{
+    cursor: pointer;
+}
+
+.container{
+    max-width: min(90%, 1440px);
+    margin-inline: auto;
+}
