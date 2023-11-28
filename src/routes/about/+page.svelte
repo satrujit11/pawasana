@@ -36,7 +36,6 @@
     </section>
 </div>
 <style>
-
     .teams > article{
         display: grid;
         grid-template-columns: 1fr;
@@ -173,7 +172,7 @@
     }
 
     .started-des > h2{
-        font-size: clamp(4rem, 6vw, 7rem);
+        font-size: clamp(3.5rem, 5vw, 6rem);
         font-family: var(--font-anton);
         line-height: 115%;
         color: var(--dark-50);

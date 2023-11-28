@@ -36,7 +36,7 @@
                     </ul>
                 </nav>
                 <div>
-                    <a href="www.poonch.com" class="main-action">Poonch</a>
+                    <a href="https://www.google.com" class="main-action" target="_blank">Poonch</a>
                     <button on:click={() => dialog.showModal()}><i class="material-symbols-outlined menu-draw">menu</i></button>
                 </div>
 
@@ -82,7 +82,9 @@
     }
 
     .transparent{
-        background-color: var(--yellow) !important;
+        background-color: transparent !important;
+        position: absolute;
+        width: 100%;
     }
     .navitem_color{
         color: var(--pink)
