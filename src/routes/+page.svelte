@@ -1,6 +1,7 @@
 <script>
 	import Achivements from '$lib/components/Achivements.svelte';
-	import AdoptionList from '../lib/components/AdoptionList.svelte';
+	import AdoptionList from '$lib/components/AdoptionList.svelte';
+	import Gallery from '$lib/components/Gallery.svelte';
 	import FutureEvent from './FutureEvent.svelte';
 </script>
 
@@ -9,12 +10,12 @@
 	</div>
 </header>
 <div class="blank-space">
-		<div class="container">
-			<hgroup class="container">
-				<h2>A CAUSE-LED EXPERIENCE IN INDIA</h2>
-				<h1>PAWASANA</h1>
-			</hgroup>
-		</div>
+	<div class="container">
+		<hgroup class="container">
+			<h2>A CAUSE-LED EXPERIENCE IN INDIA</h2>
+			<h1>PAWASANA</h1>
+		</hgroup>
+	</div>
 </div>
 <FutureEvent />
 
@@ -51,7 +52,7 @@
 			</p>
 		</article>
 
-        <AdoptionList />
+		<AdoptionList />
 		<a href="/adoptions">MORE FUR BABIES</a>
 	</section>
 </div>
@@ -73,8 +74,22 @@
 </section>
 
 <Achivements />
+<section class="gallery">
+	<h2>PAWSOME PAWASANA MOMENTS</h2>
+	<Gallery />
+</section>
 
 <style>
+	.gallery h2 {
+		font-size: clamp(3.5rem, 5vw, 6rem);
+		display: block;
+		font-family: var(--font-anton);
+		line-height: 115%;
+		color: var(--dark-50);
+		letter-spacing: 2%;
+		padding-block: 6rem 2rem;
+		text-align: center;
+	}
 	.pawrents a:hover {
 		background-color: white !important;
 		color: var(--pink) !important;
@@ -246,7 +261,7 @@
 		width: 100%;
 		height: clamp(2rem, 7vw + 1rem, 10rem);
 		background-color: var(--pink);
-        position: relative;
+		position: relative;
 	}
 	hgroup {
 		color: white;
@@ -265,21 +280,21 @@
 		font-weight: 700;
 		line-height: 115%;
 		font-size: 1.5rem;
-        padding-bottom: clamp(1rem, 1vw, 2rem);
+		padding-bottom: clamp(1rem, 1vw, 2rem);
 	}
 
-    @media(width < 400px){
-        .blank-space h2{
-            text-align: center;
-        }
-    }
+	@media (width < 400px) {
+		.blank-space h2 {
+			text-align: center;
+		}
+	}
 	.banner {
 		width: 100%;
 		height: clamp(43rem, 80vw + 6rem, 50rem);
 		background-color: var(--dark-50);
-        background-image: url('');
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-size: cover;
+		background-image: url('');
+		background-repeat: no-repeat;
+		background-position: center center;
+		background-size: cover;
 	}
 </style>

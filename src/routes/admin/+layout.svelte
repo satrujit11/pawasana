@@ -1,14 +1,31 @@
 <script>
-
+	import { page } from '$app/stores';
+	let page_name;
+	$: page_name = $page.url.pathname.substr($page.url.pathname.lastIndexOf('/'));
 </script>
-<div>
-	<header class="container">
+
+{#if page_name !== '/admin'}
+	<header>
 		<nav>
-			<a href="admin/adoptions">Adoptions</a>
-			<a href="/events">Events</a>
+			<a
+				href="/admin/adoptions"
+				class={page_name == '/adoptions' ? 'navitem_color' : ''}
+				data-sveltekit-preload-data="hover">Adoptions</a
+			>
+			<a
+				href="/admin/events"
+				class={page_name == '/events' ? 'navitem_color' : ''}
+				data-sveltekit-preload-data="hover">Events</a
+			>
+
+			<a
+				href="/admin/gallery"
+				class={page_name == '/gallery' ? 'navitem_color' : ''}
+				data-sveltekit-preload-data="hover">Gallery</a
+			>
 		</nav>
 	</header>
-</div>
+{/if}
 <slot />
 
 <style>
@@ -20,13 +37,16 @@
 	a {
 		font-size: 1.5rem;
 		font-weight: 500;
-        color: white;
-        width: 100%;
-        text-align: center;
+		color: white;
+		width: 100%;
+		text-align: center;
 		padding-block: 1rem;
 	}
+	.navitem_color {
+		background-color: var(--pink);
+	}
 
-	div {
+	header {
 		background-color: var(--dark-50);
 	}
 </style>

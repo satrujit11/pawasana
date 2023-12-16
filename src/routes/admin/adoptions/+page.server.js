@@ -37,30 +37,36 @@ export const actions = {
 	default: async ({ request }) => {
 		const formData = await request.formData();
 		const uploadedFile = formData?.get('imageLink');
-		filename = `${crypto.randomUUID()}${extname(uploadedFile?.name)}`;
-		const fileContent = await uploadedFile.arrayBuffer();
-		imageFile = Buffer.from(fileContent);
+		console.log();
+		if (uploadedFile.size > 0) {
+			filename = `${crypto.randomUUID()}${extname(uploadedFile?.name)}`;
+			const fileContent = await uploadedFile.arrayBuffer();
+			imageFile = Buffer.from(fileContent);
 
-		const params = {
-			Bucket: 'pawasana-dev',
-			Key: `adoptions/${filename}`,
-			Body: imageFile,
-			ACL: 'public-read'
-		};
+			const params = {
+				Bucket: 'pawasana-dev',
+				Key: `adoptions/${filename}`,
+				Body: imageFile,
+				ACL: 'public-read'
+			};
 
-		await uploadObject(params);
+			await uploadObject(params);
 
-		const data = {
-			name: formData?.get('name'),
-			sex: formData?.get('sex'),
-			age: formData?.get('age'),
-			description: formData?.get('description'),
-			tags: formData?.get('tags'),
-			imageLink: `https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/adoptions/${filename}`
-		};
+			const data = {
+				name: formData?.get('name'),
+				sex: formData?.get('sex'),
+				age: formData?.get('age'),
+				description: formData?.get('description'),
+				tags: formData?.get('tags'),
+				imageLink: `https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/adoptions/${filename}`,
+                state: formData?.get('state')
+			};
 
-		await handleSubmit(data);
+			await handleSubmit(data);
 
-		return { success: true };
+			return { success: true };
+		} else {
+			return { error: 'No file added' };
+		}
 	}
 };

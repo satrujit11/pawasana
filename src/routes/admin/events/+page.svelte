@@ -1,23 +1,70 @@
-
 <script>
-	import AdoptionList from './AdoptionList.svelte';
+	import EventLists from './EventLists.svelte';
 	let dialog;
-	let name, sex, age, description, tags, imageLink;
-
-	const handleDrop = (event) => {
-		const file = event.dataTransfer.files[0];
-		console.log(file);
-		imageLink = [file];
-	};
+	let selectedFiles = [];
+	let name,
+		description,
+		areaAndStreet,
+		city,
+		state,
+		landmark,
+		imageLinks,
+		pincode,
+		eventType,
+		eventDate;
+	let states = [
+		'Andhra Pradesh',
+		'Arunachal Pradesh',
+		'Assam',
+		'Bihar',
+		'Chhattisgarh',
+		'Goa',
+		'Gujarat',
+		'Haryana',
+		'Himachal Pradesh',
+		'Jharkhand',
+		'Karnataka',
+		'Kerala',
+		'Madhya Pradesh',
+		'Maharashtra',
+		'Manipur',
+		'Meghalaya',
+		'Mizoram',
+		'Nagaland',
+		'Odisha',
+		'Punjab',
+		'Rajasthan',
+		'Sikkim',
+		'Tamil Nadu',
+		'Telangana',
+		'Tripura',
+		'Uttar Pradesh',
+		'Uttarakhand',
+		'West Bengal',
+		'Andaman and Nicobar Islands',
+		'Chandigarh',
+		'Dadra and Nagar Haveli',
+		'Daman and Diu',
+		'Delhi',
+		'Lakshadweep',
+		'Puducherry',
+		'Jammu and Kashmir'
+	];
+	function handleFileChange(event) {
+		const files = event.target.files;
+		selectedFiles = Array.from(files);
+		console.log(selectedFiles);
+	}
 </script>
 
 <section class="container">
 	<div>
-		<h1>Adoptions</h1>
-		<button on:click={() => dialog.showModal()}>Add Adoption</button>
+		<h1>Events</h1>
+		<button on:click={() => dialog.showModal()}>Add Events</button>
 	</div>
-	<AdoptionList />
 </section>
+
+<EventLists />
 <dialog bind:this={dialog}>
 	<button
 		on:click={() => {
@@ -27,44 +74,87 @@
 		<i class="material-symbols-outlined">close</i></button
 	>
 	<div>
-		<h2>Fill the below details to book the ticket</h2>
+		<h2>Fill the below details to create a new event.</h2>
 		<form enctype="multipart/form-data" method="post">
-			<input type="text" bind:value={name} name="name" placeholder="Name of the dog" />
-			<input type="text" bind:value={sex} name="sex" placeholder="Sex" />
-			<input type="number" bind:value={age} name="age" placeholder="Age" />
+			<input type="text" bind:value={name} name="name" placeholder="Name of the Event" />
 			<textarea bind:value={description} name="description" rows="4" placeholder="Description"
 			></textarea>
-			<input type="text" bind:value={tags} name="tags" placeholder="Tags" />
+
+			<select bind:value={eventType} name="eventType" placeholder="Select event type">
+				<option value="" disabled selected class="placeholder">Select event type</option>
+				<option value="Yoga">Yoga</option>
+				<option value="Paint">Paint</option>
+			</select>
+			<input
+				type="datetime-local"
+				bind:value={eventDate}
+				name="eventDate"
+				placeholder="Event Date"
+			/>
+			<input
+				type="text"
+				bind:value={areaAndStreet}
+				name="areaAndStreet"
+				placeholder="Area and Street"
+			/>
+			<input type="text" bind:value={city} name="city" placeholder="City" />
+			<select bind:value={state} name="state" placeholder="Select state">
+				<option value="" disabled selected class="placeholder">Select state</option>
+				{#each states as s (s)}
+					<option value={s}>{s}</option>
+				{/each}
+			</select>
+			<input type="text" bind:value={landmark} name="landmark" placeholder="Landmark" />
+			<input type="number" bind:value={pincode} name="pincode" placeholder="Pincode" />
 			<label>
-				<!-- svelte-ignore a11y-no-static-element-interactions-->
-				<div
-					class="file-upload"
-					on:drop|preventDefault={handleDrop}
-					on:dragover|preventDefault={() => {}}
-				>
-					{#if imageLink === undefined}
+				<div class="file-upload">
+					{#if imageLinks === undefined}
 						<i class="material-symbols-outlined">upload</i>
 						<p>Click here to upload the image of the dog</p>
 					{:else}
 						<img
-							src={URL.createObjectURL(imageLink[0])}
+							src={URL.createObjectURL(imageLinks[0])}
 							style="max-height: 10rem"
 							alt="uploaded"
 						/>
 					{/if}
 				</div>
-				<input type="file" name="imageLink" bind:files={imageLink} accept="image/*" />
+				<input
+					type="file"
+					name="imageLinks"
+					bind:files={imageLinks}
+					accept="image/*"
+					multiple
+					on:change={handleFileChange}
+				/>
 			</label>
-			<button type="submit">Submit</button>
+			<button
+				class="submit-button"
+				type="submit"
+				disabled={!name ||
+					!description ||
+					!eventType ||
+					!areaAndStreet ||
+					!city ||
+					!state ||
+					!landmark ||
+					!pincode ||
+					!imageLinks ||
+					!eventDate}>Submit</button
+			>
 		</form>
 	</div>
 </dialog>
 
 <style>
+	.submit-button:disabled {
+		background-color: #f2c7d6;
+	}
 	h1 {
 		display: block;
 		font-size: 3rem;
 		font-family: var(--font-anton);
+		color: var(--dark-50);
 	}
 
 	section {
@@ -164,6 +254,13 @@
 		border: none;
 	}
 
+	select {
+		all: unset;
+		border: none;
+		padding-inline: 1.5rem !important;
+		outline: none;
+	}
+	select,
 	input,
 	textarea {
 		padding: 1rem 1.5rem;

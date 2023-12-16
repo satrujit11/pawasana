@@ -19,9 +19,60 @@ model Adoption {
   description String
   tags        String
   imageLink   String
+  state       String
 }
 
 enum Sex {
   Male
   Female
 }
+
+
+model Event {
+    id Int @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    name String
+    description String
+    event_type EventType
+    area_and_street String
+    city String
+    state String
+    Landmark String
+    pincode Int
+    imageLinks String
+    spreadSheetId String
+    eventDate DateTime
+
+    bookings Booking[]
+}
+
+enum EventType {
+    Yoga
+    Paint
+}
+
+model Booking {
+    id Int @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    name String
+    emailId String
+    phoneNumber String
+    eventId Int
+    AdultTicketNumber Int
+    childTicketNumber Int
+    pricePaid Float
+    transactionNumber String
+    merchantTransactionId String
+    refundStatus Boolean @default(false)
+
+    event Event @relation(fields: [eventId], references: [id])
+
+}
+
+model Image {
+    id Int @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    imageLink String
+}
+
+

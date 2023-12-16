@@ -5,15 +5,10 @@
 	import { onMount } from 'svelte';
 
 	let data = [];
-
-	const fetchData = async () => {
+	const fetchdata = async () => {
 		try {
 			const response = await fetch('/api/adoption');
 			data = await response.json();
-			console.log(data);
-			if (data.length > 0) {
-				console.log(true);
-			}
 			return { data };
 		} catch (err) {
 			console.log(err);
@@ -24,39 +19,47 @@
 		return string.charAt(0).toUpperCase() + string.slice(1);
 	};
 
-	onMount(async () => {
-		await fetchData();
-	});
+	const options = {
+		type: 'loop',
+		padding: '15rem',
+		perPage: 1,
+		perMove: 1,
+		gap: '5rem',
+		pagination: true,
+		autoplay: true,
+		breakpoints: {
+			700: {
+				type: 'default',
+				padding: '1rem',
+				gap: '2rem',
+				arrows: false
+			}
+		}
+	};
 
-    const options = {
-        type: 'loop',
-        padding: '15rem',
-        perPage : 1,
-        perMove: 1,
-        gap: '5rem',
-        pagination: true,
-        autoplay: true,
-        breakpoints: {
-            700 : {
-                type: 'default',
-                padding: '1rem',
-                gap: '2rem',
-                arrows: false
-            }
-        }
-    }
+	onMount(() => {
+		fetchdata();
+	});
 </script>
 
 <section class="cards-container">
 	{#if data.length > 0}
-		<Splide options={options}>
+		<Splide {options}>
 			{#each data as item (item.id)}
 				<SplideSlide class="slide">
 					<article>
 						<div class="image" style="background-image: url({item.imageLink});"></div>
 						<div class="content">
 							<div class="adoption-details">
-								<h3>{item.name}</h3>
+								<div class="title">
+									<h3>{item.name}</h3>
+									<div class="location_details">
+										<i class="material-symbols-outlined location">
+											location_on
+										</i>{item.state}
+									</div>
+								</div>
+
 								<div class="tag-items">
 									<span class="tags">{upperCase(item.sex)}</span>
 									<span class="tags">{item.age} months</span>
@@ -79,20 +82,43 @@
 </section>
 
 <style>
-    .slide{
-		box-shadow: 0px 0px 82px 0px #ce5c85;
-    }
-    .cards-container{
-        width: min(1800px, 100vw);
-        margin-inline: auto;
-    }
-    section{
-        margin-bottom: 8rem;
-    }
+	.title {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	.location_details {
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+		color: var(--dark-100);
+        padding: 0.5rem 1rem 0.5rem 0.5rem;
+        border: 2px solid var(--pink);
+        border-radius: 1.5rem;
+        color: var(--pink)
+
+	}
+	.location {
+		color: var(--pink);
+	}
+	.adoption-details p {
+		display: -webkit-box;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+		-webkit-line-clamp: 2;
+	}
+	.cards-container {
+		width: min(1800px, 100vw);
+		margin-inline: auto;
+	}
+	section {
+		margin-bottom: 8rem;
+	}
 
 	.image {
 		background-size: cover;
 		background-position: center;
+		background-color: #ececec;
 	}
 	.content {
 		display: flex;
@@ -135,7 +161,7 @@
 		flex-direction: column;
 		gap: 1.3rem;
 
-		padding: 1.5rem;
+		padding: 1.5rem 1.5rem 0 1.5rem;
 	}
 	article {
 		display: grid;
@@ -144,14 +170,14 @@
 		border-radius: 1.5rem;
 		overflow: hidden;
 	}
-    @media (width < 980px){
-        article{
-            grid-template-columns: 1fr !important;
-        }
-        .image{
-            height: 15rem;
-        }
-    }
+	@media (width < 980px) {
+		article {
+			grid-template-columns: 1fr !important;
+		}
+		.image {
+			height: 15rem;
+		}
+	}
 
 	h3 {
 		font-size: 2rem;

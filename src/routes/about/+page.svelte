@@ -1,7 +1,10 @@
 <div class="main-container">
 	<section class="container banner">
 		<h1>OUR JOURNEY</h1>
-		<div class="banner-image"><div></div></div>
+		<div class="banner-image" style="
+            
+		background-image: url(https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/assets/about_header.jpg);
+        "></div>
 	</section>
 </div>
 
@@ -158,7 +161,6 @@
 		height: 35rem;
 		border-radius: 2.75rem 2.75rem 0 0;
 
-		background-image: url('../assets/about_header.jpg');
 		background-size: cover;
 		background-position: center center;
 		background-repeat: no-repeat;

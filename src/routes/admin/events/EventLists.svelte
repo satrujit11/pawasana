@@ -1,90 +1,200 @@
-
 <script>
+	import { onMount } from 'svelte';
 	import { Splide, SplideSlide } from '@splidejs/svelte-splide';
 	import '@splidejs/svelte-splide/css';
 
-	import { onMount } from 'svelte';
-
 	let data = [];
-
+	let dialog = {};
 	const fetchdata = async () => {
 		try {
-			const response = await fetch('/api/adoption');
+			const response = await fetch('/api/event');
 			data = await response.json();
 			console.log(data);
-			if (data.length > 0) {
-				console.log(true);
-                console.log(data)
-			}
 			return { data };
 		} catch (err) {
 			console.log(err);
 		}
 	};
 
-	const upperCase = (string) => {
-		return string.charAt(0).toUpperCase() + string.slice(1);
-	};
-
 	const options = {
-		type: 'loop',
-		padding: '15rem',
 		perPage: 1,
 		perMove: 1,
-		gap: '5rem',
-		pagination: true,
-		autoplay: true,
-		breakpoints: {
-			700: {
-				type: 'default',
-				padding: '1rem',
-				gap: '2rem',
-				arrows: false
+		arrows: false,
+		pagination: false,
+		autoplay: true
+	};
+
+	const handleDelete = async (adoptionId, imageLinks, spreadSheetId) => {
+		try {
+			const response = await fetch(`http://localhost:5173/api/event`, {
+				method: 'DELETE',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify({ id: adoptionId, imageLinks: imageLinks, spreadSheetId: spreadSheetId })
+			});
+
+			if (!response.ok) {
+				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
+		    console.log(JSON.stringify({ id: adoptionId, imageLinks: imageLinks }))
+			const data = await response.json();
+			console.log(data); // Handle the successful response
+		} catch (error) {
+			console.error('Error:', error); // Handle errors
 		}
 	};
 
-    onMount(() => {fetchdata()})
+	onMount(() => {
+		fetchdata();
+	});
 </script>
 
-<section class="cards-container">
+<section class="container">
 	{#if data.length > 0}
-		<Splide {options}>
-			{#each data as item (item.id)}
-				<SplideSlide class="slide">
-					<article>
-						<div class="image" style="background-image: url({item.imageLink});"></div>
-						<div class="content">
-							<div class="adoption-details">
-								<h3>{item.name}</h3>
-								<div class="tag-items">
-									<span class="tags">{upperCase(item.sex)}</span>
-									<span class="tags">{item.age} months</span>
-									{#each item.tags.split(',') as tag (tag)}
-										<span class="tags">{upperCase(tag)}</span>
-									{/each}
-								</div>
-								<p>{item.description}</p>
+		{#each data as item (item.id)}
+			<button on:click={() => dialog[item.id].showModal()} class="card">
+				<article>
+					<div
+						class="image"
+						style="background-image: url({item.imageLinks.split(',')[0]});"
+					></div>
+					<div class="content">
+						<div class="adoption-details">
+							<h3>{item.name}</h3>
+							<span>{new Date(item.eventDate)}</span>
+							<p>{item.description}</p>
+							<div class="location_details">
+								<i class="material-symbols-outlined location">
+									location_on
+								</i>{item.Landmark +
+									', ' +
+									item.area_and_street +
+									', ' +
+									item.city +
+									', ' +
+									item.state +
+									', ' +
+									item.pincode}
 							</div>
-
-							<a href="https://google-form.com" target="_blank">ADOPT</a>
 						</div>
-					</article>
-				</SplideSlide>
-			{/each}
-		</Splide>
+						<div class="actions">
+							<a
+								href={`https://docs.google.com/spreadsheets/d/${item.spreadSheetId}`}
+								target="_blank">Bookings</a
+							>
+
+							<form on:submit={() => handleDelete(item.id, item.imageLinks, item.spreadSheetId)}>
+								<button type="submit">Delete</button>
+							</form>
+						</div>
+					</div>
+				</article>
+			</button>
+			<dialog bind:this={dialog[item.id]}>
+				<button class="close-icon" on:click={() => dialog[item.id].close()}
+					><i class="material-symbols-outlined">close</i></button
+				>
+				<Splide {options}>
+					{#each item.imageLinks.split(',') as imageLink (imageLink)}
+						<SplideSlide>
+							<div class="image" style="background-image: url({imageLink});"></div>
+						</SplideSlide>
+					{/each}
+				</Splide>
+				<div class="content">
+					<div class="adoption-details">
+						<h3>{item.name}</h3>
+						<span>{new Date(item.eventDate)}</span>
+						<p>{item.description}</p>
+						<div class="location_details">
+							<i class="material-symbols-outlined location">
+								location_on
+							</i>{item.Landmark +
+								', ' +
+								item.area_and_street +
+								', ' +
+								item.city +
+								', ' +
+								item.state +
+								', ' +
+								item.pincode}
+						</div>
+					</div>
+					<div class="actions">
+						<a
+							href={`https://docs.google.com/spreadsheets/d/${item.spreadSheetId}`}
+							target="_blank">Bookings</a
+						>
+					</div>
+				</div>
+			</dialog>
+		{/each}
 	{:else}
 		<p>Loading......</p>
 	{/if}
 </section>
 
 <style>
-	:global(.slide) {
-		box-shadow: 0px 0px 82px 0px #ce5c85;
+    .adoption-details span{
+        color: #7e7e7e;
+        font-weight: 500;
+    }
+	.location_details {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		color: var(--dark-100);
 	}
-	.cards-container {
-		width: min(1800px, 100vw);
-		margin-inline: auto;
+	.location {
+		color: white;
+		background: var(--dark-50);
+		padding: 0.4rem;
+		border-radius: 50%;
+	}
+	dialog h3 {
+		font-size: 3rem;
+	}
+	dialog::backdrop {
+		background: rgba(0, 0, 0, 0.4);
+	}
+	.card {
+		margin-bottom: 2rem;
+		width: 100%;
+	}
+	dialog {
+		width: min(1200px, 95%);
+		margin: auto;
+		border: none;
+		border-radius: 1.5rem;
+	}
+	dialog button {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		z-index: 9999;
+	}
+	dialog i {
+		padding: 0.3rem;
+		background-color: white;
+		border-radius: 50%;
+	}
+	dialog .image {
+		width: 100%;
+		height: clamp(15rem, 25vw, 25rem);
+	}
+	.actions {
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		margin: 1.5rem;
+		gap: 1rem;
+	}
+	dialog .actions {
+		grid-template-columns: 1fr;
+	}
+	article {
+		background: #fff;
+		box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
 	}
 	section {
 		margin-bottom: 8rem;
@@ -99,7 +209,8 @@
 		flex-direction: column;
 		justify-content: space-between;
 	}
-	a {
+	a,
+	.actions button {
 		padding: 0.5rem 1rem !important;
 		text-align: center;
 		border: 0.15rem solid var(--pink);
@@ -108,7 +219,7 @@
 		font-size: 1.5rem;
 		justify-self: stretch;
 		color: var(--pink);
-		margin: 1.5rem;
+		width: -webkit-fill-available;
 		&:hover {
 			background-color: var(--pink);
 			color: white;
@@ -118,24 +229,12 @@
 		line-height: 115%;
 		color: var(--dark-100);
 	}
-	.tag-items {
-		display: flex;
-		flex-wrap: wrap;
-		gap: 0.75rem;
-	}
-	.tags {
-		padding: 0.5rem 1rem;
-		background-color: var(--yellow);
-		border-radius: 1rem;
-		font-weight: 600;
-		line-height: 115%;
-	}
 	.adoption-details {
 		display: flex;
 		flex-direction: column;
 		gap: 1.3rem;
 
-		padding: 1.5rem;
+		padding: 1.5rem 1.5rem 0 1.5rem;
 	}
 	article {
 		display: grid;
@@ -144,12 +243,12 @@
 		border-radius: 1.5rem;
 		overflow: hidden;
 	}
-	@media (width < 980px) {
+	@media (width < 750px) {
 		article {
 			grid-template-columns: 1fr !important;
 		}
 		.image {
-			height: 15rem;
+			height: 21rem;
 		}
 	}
 
@@ -158,5 +257,6 @@
 		font-family: var(--font-anton);
 		color: var(--dark-50);
 		display: block;
+		text-transform: uppercase;
 	}
 </style>

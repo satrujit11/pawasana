@@ -4,11 +4,14 @@
 
 <div class="header-background">
 	<header class="container">
-		<img
-			src="https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/assets/adoption-header.png"
-			alt="CuteDog"
-			loading="eager"
-		/>
+		<div class="header-image">
+			<img
+				src="https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/assets/adoption-header1.png"
+				alt="CuteDog"
+				loading="eager"
+			/>
+		</div>
+
 		<div>
 			<h1>
 				CHOOSE RIGHT <div>CHOOSE ADOPTION</div>
@@ -48,6 +51,10 @@
 </div>
 
 <style>
+    .header-image{
+        width: 100%;
+        height: clamp(25rem, 80vw + 6rem, 50rem);
+    }
 	.adoption-reason {
 		padding-block: clamp(5rem, 8vw, 10rem);
 	}
@@ -60,14 +67,14 @@
 		gap: 2rem;
 	}
 
-    @media (width < 600px) {
-        .adoption-reason > div{
-            grid-template-columns: 1fr;
-        }
-        .adoption-reason  p{
-            text-align: center;
-        }
-    }
+	@media (width < 600px) {
+		.adoption-reason > div {
+			grid-template-columns: 1fr;
+		}
+		.adoption-reason p {
+			text-align: center;
+		}
+	}
 	.adoption-reason p {
 		color: white;
 		font-size: 1.5rem;
@@ -99,20 +106,17 @@
 		position: absolute;
 		bottom: 2rem;
 	}
-    @media (width < 600px){
-        h1{
-            position: static;
-        }
-        .header-background{
-            padding-block: 6rem 2rem;
-        }
-    }
+	@media (width < 600px) {
+		h1 {
+			position: static;
+		}
+		.header-background {
+			padding-block: 6rem 2rem;
+		}
+	}
 	h1 > div {
 		font-size: clamp(3rem, 12vw, 12rem);
-        line-height: 100%;
-	}
-	header > img {
-		width: 100%;
+		line-height: 100%;
 	}
 	.header-background {
 		background-color: var(--yellow);
@@ -125,7 +129,6 @@
 		line-height: 115%;
 		color: var(--pink);
 		padding-bottom: 3rem;
-
 	}
 	.adoption-list {
 		padding-block: 3rem 4.5rem;

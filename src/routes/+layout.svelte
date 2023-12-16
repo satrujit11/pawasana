@@ -5,6 +5,7 @@
 	import Achivements from '$lib/components/Achivements.svelte';
 	import { afterUpdate } from 'svelte';
 
+
 	let dialog;
 	let page_name;
 	$: page_name = $page.url.pathname.substr($page.url.pathname.lastIndexOf('/'));
@@ -14,7 +15,8 @@
 	$: page_url = $page.url.pathname;
 </script>
 
-{#if page_url.includes('/admin')}
+
+{#if page_url.includes('/admin') || page_url.includes('/payment')}
 	<slot />
 {:else}
 	<div class="body">
@@ -29,20 +31,30 @@
 								<a href="/" class={page_name == '/' ? 'navitem_color' : ''}>Home</a>
 							</li>
 							<li>
-								<a href="/events" class={page_name == '/events' ? 'navitem_color' : ''}>Events</a>
+								<a
+									href="/events"
+									class={page_name == '/events' ? 'navitem_color' : ''}>Events</a
+								>
 							</li>
 							<li>
-								<a href="/adoptions" class={page_name == '/adoptions' ? 'navitem_color' : ''}
+								<a
+									href="/adoptions"
+									class={page_name == '/adoptions' ? 'navitem_color' : ''}
 									>Adoptions</a
 								>
 							</li>
 							<li>
-								<a href="/about" class={page_name == '/about' ? 'navitem_color' : ''}>About</a>
+								<a
+									href="/about"
+									class={page_name == '/about' ? 'navitem_color' : ''}>About</a
+								>
 							</li>
 						</ul>
 					</nav>
 					<div>
-						<a href="https://www.google.com" class="main-action" target="_blank">Poonch</a>
+						<a href="https://www.google.com" class="main-action" target="_blank"
+							>Poonch</a
+						>
 						<button on:click={() => dialog.showModal()}
 							><i class="material-symbols-outlined menu-draw">menu</i></button
 						>
@@ -56,20 +68,30 @@
 							<nav>
 								<ul>
 									<li>
-										<a href="/" class={page_name == '/' ? 'navitem_color' : ''}>Home</a>
+										<a href="/" class={page_name == '/' ? 'navitem_color' : ''}
+											>Home</a
+										>
 									</li>
 									<li>
-										<a href="/events" class={page_name == '/events' ? 'navitem_color' : ''}
+										<a
+											href="/events"
+											class={page_name == '/events' ? 'navitem_color' : ''}
 											>Events</a
 										>
 									</li>
 									<li>
-										<a href="/adoptions" class={page_name == '/adoptions' ? 'navitem_color' : ''}
+										<a
+											href="/adoptions"
+											class={page_name == '/adoptions' ? 'navitem_color' : ''}
 											>Adoptions</a
 										>
 									</li>
 									<li>
-										<a href="/about" class={page_name == '/about' ? 'navitem_color' : ''}>About</a>
+										<a
+											href="/about"
+											class={page_name == '/about' ? 'navitem_color' : ''}
+											>About</a
+										>
 									</li>
 								</ul>
 							</nav>

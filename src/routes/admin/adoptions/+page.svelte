@@ -1,8 +1,46 @@
 <script>
 	import AdoptionList from './AdoptionList.svelte';
 	let dialog;
-	let name, sex, age, description, tags, imageLink;
+	let name, sex, age, description, tags, imageLink, state;
 
+	let states = [
+		'Andhra Pradesh',
+		'Arunachal Pradesh',
+		'Assam',
+		'Bihar',
+		'Chhattisgarh',
+		'Goa',
+		'Gujarat',
+		'Haryana',
+		'Himachal Pradesh',
+		'Jharkhand',
+		'Karnataka',
+		'Kerala',
+		'Madhya Pradesh',
+		'Maharashtra',
+		'Manipur',
+		'Meghalaya',
+		'Mizoram',
+		'Nagaland',
+		'Odisha',
+		'Punjab',
+		'Rajasthan',
+		'Sikkim',
+		'Tamil Nadu',
+		'Telangana',
+		'Tripura',
+		'Uttar Pradesh',
+		'Uttarakhand',
+		'West Bengal',
+		'Andaman and Nicobar Islands',
+		'Chandigarh',
+		'Dadra and Nagar Haveli',
+		'Daman and Diu',
+		'Delhi',
+		'Lakshadweep',
+		'Puducherry',
+		'Jammu and Kashmir'
+	];
 	const handleDrop = (event) => {
 		const file = event.dataTransfer.files[0];
 		console.log(file);
@@ -26,14 +64,25 @@
 		<i class="material-symbols-outlined">close</i></button
 	>
 	<div>
-		<h2>Fill the below details to book the ticket</h2>
+		<h2>Fill the below details to list a new adoption.</h2>
 		<form enctype="multipart/form-data" method="post">
 			<input type="text" bind:value={name} name="name" placeholder="Name of the dog" />
-			<input type="text" bind:value={sex} name="sex" placeholder="Sex" />
+			<select bind:value={sex} name="sex" placeholder="Select Sex">
+				<option value="" disabled selected class="placeholder">Select Sex</option>
+				<option value="Male">Male</option>
+				<option value="Female">Female</option>
+			</select>
 			<input type="number" bind:value={age} name="age" placeholder="Age" />
 			<textarea bind:value={description} name="description" rows="4" placeholder="Description"
 			></textarea>
 			<input type="text" bind:value={tags} name="tags" placeholder="Tags" />
+			<select bind:value={state} name="state" placeholder="Select state">
+				<option value="" disabled selected class="placeholder">Select state</option>
+				{#each states as s (s)}
+					<option value={s}>{s}</option>
+				{/each}
+			</select>
+
 			<label>
 				<!-- svelte-ignore a11y-no-static-element-interactions-->
 				<div
@@ -54,16 +103,29 @@
 				</div>
 				<input type="file" name="imageLink" bind:files={imageLink} accept="image/*" />
 			</label>
-			<button type="submit">Submit</button>
+			<button
+				type="submit"
+				disabled={!name || !sex || !age || !description || !tags || !imageLink || !state}
+                class="submit-button"
+				>Submit</button
+			>
 		</form>
 	</div>
 </dialog>
 
 <style>
+
+	.submit-button:disabled {
+		background-color: #f2c7d6;
+	}
+	.placeholder {
+		color: #c8c8c8;
+	}
 	h1 {
 		display: block;
 		font-size: 3rem;
 		font-family: var(--font-anton);
+		color: var(--dark-50);
 	}
 
 	section {
@@ -162,9 +224,15 @@
 		display: block;
 		border: none;
 	}
-
+	select {
+		all: unset;
+		border: none;
+		padding-inline: 1.5rem !important;
+		outline: none;
+	}
 	input,
-	textarea {
+	textarea,
+	select {
 		padding: 1rem 1.5rem;
 		outline: none;
 		background-color: #f5f5f5;

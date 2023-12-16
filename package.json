@@ -30,6 +30,10 @@
 		"@aws-sdk/client-s3": "^3.461.0",
 		"@prisma/client": "^5.6.0",
 		"@splidejs/svelte-splide": "^0.2.9",
-		"buffer": "^6.0.3"
+		"axios": "^1.6.2",
+		"buffer": "^6.0.3",
+		"d3": "^7.8.5",
+		"date-fns": "^2.30.0",
+		"googleapis": "^129.0.0"
 	}
 }
