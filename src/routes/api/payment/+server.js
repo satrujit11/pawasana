@@ -1,5 +1,5 @@
 import { error, json } from '@sveltejs/kit';
-import bookingData from '$lib/stores/bookingData';
+import { bookingData } from '$lib/stores/bookingData';
 import crypto from 'crypto';
 
 const setPaymentData = (merchantTransactionId, amount) => {
@@ -8,7 +8,7 @@ const setPaymentData = (merchantTransactionId, amount) => {
 		merchantTransactionId: merchantTransactionId,
 		merchantUserId: 'MUID123',
 		amount: amount,
-		redirectUrl: 'http://localhost:5173/payment',
+		redirectUrl: `http://localhost:5173/payment/${merchantTransactionId}`,
 		redirectMode: 'REDIRECT',
 		mobileNumber: '9999999999',
 		paymentInstrument: {
@@ -60,7 +60,8 @@ export async function POST({ request }) {
 		Date.now().toString() +
 		Math.random().toString(36).substring(2, 15) +
 		Math.random().toString(36).substring(2, 15);
-	bookingData.set({
+
+	bookingData.update( arr => [...arr, {
 		name: name,
 		email: emailId,
 		phoneNumber: phoneNumber,
@@ -69,7 +70,8 @@ export async function POST({ request }) {
 		AdultTicketNumber: AdultTicketNumber,
 		pricePaid: pricePaid,
 		merchantTransactionId: merchantTransactionId
-	});
+	}]);
+
     const { payloadMain, xVerify } = setPaymentData(merchantTransactionId, pricePaid);
     const { redirectUrl } = await paymentRequest(payloadMain, xVerify);
 

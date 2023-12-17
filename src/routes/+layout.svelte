@@ -5,7 +5,6 @@
 	import Achivements from '$lib/components/Achivements.svelte';
 	import { afterUpdate } from 'svelte';
 
-
 	let dialog;
 	let page_name;
 	$: page_name = $page.url.pathname.substr($page.url.pathname.lastIndexOf('/'));
@@ -14,7 +13,6 @@
 	let page_url;
 	$: page_url = $page.url.pathname;
 </script>
-
 
 {#if page_url.includes('/admin') || page_url.includes('/payment')}
 	<slot />
@@ -102,10 +100,12 @@
 
 			<slot />
 		</div>
-		{#if page_name != '/'}
-			<Achivements />
+		{#if page_name != '/refund'}
+			{#if page_name != '/'}
+				<Achivements />
+			{/if}
+			<Foooter />
 		{/if}
-		<Foooter />
 	</div>
 {/if}
 
