@@ -15,7 +15,6 @@ export async function GET() {
 	}
 }
 
-
 const appendToSpreadsheet = async (spreadsheetId, values) => {
 	const auth = await authorize();
 
@@ -30,9 +29,9 @@ const appendToSpreadsheet = async (spreadsheetId, values) => {
 					Authorization: `Bearer ${auth.access_token}`
 				},
 				body: JSON.stringify({
-                    range: range,
-                    majorDimension: 'ROWS',
-					values: [values],
+					range: range,
+					majorDimension: 'ROWS',
+					values: [values]
 				})
 			}
 		);
@@ -51,7 +50,7 @@ const appendToSpreadsheet = async (spreadsheetId, values) => {
 
 export async function POST({ request }) {
 	const datas = await request.json();
-    console.log(datas)
+	console.log(datas);
 	const {
 		name,
 		emailId,
@@ -61,7 +60,7 @@ export async function POST({ request }) {
 		childTicketNumber,
 		pricePaid,
 		transactionNumber,
-        merchantTransactionId
+		merchantTransactionId
 	} = datas;
 	if (
 		!name ||
@@ -72,7 +71,7 @@ export async function POST({ request }) {
 		!childTicketNumber ||
 		!pricePaid ||
 		!transactionNumber ||
-        !merchantTransactionId
+		!merchantTransactionId
 	) {
 		return error({ message: 'Missing data' }, { status: 400 });
 	}
@@ -92,15 +91,15 @@ export async function POST({ request }) {
 		transactionNumber
 	];
 
-    console.log(arr_data)
+	console.log(arr_data);
 	try {
 		await appendToSpreadsheet(spreadSheetId, arr_data);
 	} catch (err) {
 		console.log(err);
-        return error({
-            status: 500,
-            message: 'Internal Server Error'
-        })
+		return error({
+			status: 500,
+			message: 'Internal Server Error'
+		});
 	}
 	try {
 		await db.booking.create({
@@ -113,11 +112,11 @@ export async function POST({ request }) {
 				childTicketNumber: parseInt(childTicketNumber),
 				pricePaid: parseFloat(pricePaid),
 				transactionNumber,
-                merchantTransactionId
+				merchantTransactionId
 			}
 		});
 
-		return json({ message: 'Booking record created successfully', link:'https://www.google.com' });
+		return json({ status: 200, message: 'Booking record created successfully' });
 	} catch (err) {
 		console.log(err);
 		return error({

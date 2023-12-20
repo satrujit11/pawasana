@@ -1,14 +1,15 @@
 import { error, json } from '@sveltejs/kit';
 import { bookingData } from '$lib/stores/bookingData';
 import crypto from 'crypto';
+import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
 
-const setPaymentData = (merchantTransactionId, amount) => {
+const setPaymentData = (merchantTransactionId, amount, merchantUserId) => {
 	const payload = JSON.stringify({
 		merchantId: 'PGTESTPAYUAT',
 		merchantTransactionId: merchantTransactionId,
-		merchantUserId: 'MUID123',
+		merchantUserId: merchantUserId,
 		amount: amount,
-		redirectUrl: `http://localhost:5173/payment/${merchantTransactionId}`,
+		redirectUrl: `${PUBLIC_WEBSITE_LINK}/payment/${merchantTransactionId}`,
 		redirectMode: 'REDIRECT',
 		mobileNumber: '9999999999',
 		paymentInstrument: {
@@ -23,10 +24,10 @@ const setPaymentData = (merchantTransactionId, amount) => {
 	const sha256 = crypto.createHash('sha256').update(string).digest('hex');
 	const xVerify = sha256 + '###' + saltIndex;
 
-    return {
-        payloadMain: payloadMain,
-        xVerify: xVerify
-    }
+	return {
+		payloadMain: payloadMain,
+		xVerify: xVerify
+	};
 };
 
 const paymentRequest = async (payloadMain, xVerify) => {
@@ -58,22 +59,34 @@ export async function POST({ request }) {
 	const merchantTransactionId =
 		'P' +
 		Date.now().toString() +
-		Math.random().toString(36).substring(2, 15) +
-		Math.random().toString(36).substring(2, 15);
+		Math.random().toString(36).substring(2, 10) +
+		Math.random().toString(36).substring(2, 10);
 
-	bookingData.update( arr => [...arr, {
-		name: name,
-		email: emailId,
-		phoneNumber: phoneNumber,
-		eventId: eventId,
-		childTicketNumber: childTicketNumber,
-		AdultTicketNumber: AdultTicketNumber,
-		pricePaid: pricePaid,
-		merchantTransactionId: merchantTransactionId
-	}]);
+	bookingData.update((arr) => [
+		...arr,
+		{
+			name: name,
+			email: emailId,
+			phoneNumber: phoneNumber,
+			eventId: eventId,
+			childTicketNumber: childTicketNumber,
+			AdultTicketNumber: AdultTicketNumber,
+			pricePaid: pricePaid,
+			merchantTransactionId: merchantTransactionId
+		}
+	]);
+	const merchantUserId =
+		name.replace(/\s/g, '').toUpperCase().substring(0, 5) +
+		phoneNumber.toString().substring(0, 10) +
+		eventId.toString() +
+		Date.now().toString();
 
-    const { payloadMain, xVerify } = setPaymentData(merchantTransactionId, pricePaid);
-    const { redirectUrl } = await paymentRequest(payloadMain, xVerify);
+	const { payloadMain, xVerify } = setPaymentData(
+		merchantTransactionId,
+		pricePaid,
+		merchantUserId
+	);
+	const { redirectUrl } = await paymentRequest(payloadMain, xVerify);
 
 	return json({ redirect_url: redirectUrl });
 }

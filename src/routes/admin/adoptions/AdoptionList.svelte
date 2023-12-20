@@ -1,6 +1,8 @@
 <script>
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
+    import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
+
 	let data = [];
 	let uniqueStates = [];
 	let filteredData = [];
@@ -22,7 +24,7 @@
 	};
 	const handleDelete = async (adoptionId, imageLink) => {
 		try {
-			const response = await fetch(`http://localhost:5173/api/adoption`, {
+			const response = await fetch(`${PUBLIC_WEBSITE_LINK}/api/adoption`, {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json'

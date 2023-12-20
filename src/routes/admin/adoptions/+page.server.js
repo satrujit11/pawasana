@@ -1,6 +1,21 @@
 import { extname } from 'path';
 import { s3Client } from '$lib/config/S3Config.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
+import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
+import { auth } from '$lib/stores/authStore';
+import { redirect } from '@sveltejs/kit';
+
+export const load = () => {
+    let authStatus = false;
+    const unsubscribe = auth.subscribe((value) => {
+        authStatus = value;
+    })
+
+    unsubscribe();
+    if (!authStatus) {
+        throw redirect(302, '/');
+    }
+}
 
 let imageFile, filename;
 
@@ -18,7 +33,7 @@ const uploadObject = async (params) => {
 const handleSubmit = async (params) => {
 	console.log(JSON.stringify(params));
 	try {
-		const response = await fetch('http://localhost:5173/api/adoption', {
+		const response = await fetch(`${PUBLIC_WEBSITE_LINK}/api/adoption`, {
 			method: 'POST',
 			body: JSON.stringify(params),
 			headers: {

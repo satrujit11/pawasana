@@ -1,6 +1,7 @@
 <script>
 	import { onMount } from 'svelte';
 	import { Splide, SplideSlide } from '@splidejs/svelte-splide';
+	import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
 	import '@splidejs/svelte-splide/css';
 
 	let data = [];
@@ -26,18 +27,22 @@
 
 	const handleDelete = async (adoptionId, imageLinks, spreadSheetId) => {
 		try {
-			const response = await fetch(`http://localhost:5173/api/event`, {
+			const response = await fetch(`${PUBLIC_WEBSITE_LINK}/api/event`, {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json'
 				},
-				body: JSON.stringify({ id: adoptionId, imageLinks: imageLinks, spreadSheetId: spreadSheetId })
+				body: JSON.stringify({
+					id: adoptionId,
+					imageLinks: imageLinks,
+					spreadSheetId: spreadSheetId
+				})
 			});
 
 			if (!response.ok) {
 				throw new Error(`HTTP error! Status: ${response.status}`);
 			}
-		    console.log(JSON.stringify({ id: adoptionId, imageLinks: imageLinks }))
+			console.log(JSON.stringify({ id: adoptionId, imageLinks: imageLinks }));
 			const data = await response.json();
 			console.log(data); // Handle the successful response
 		} catch (error) {
@@ -84,7 +89,10 @@
 								target="_blank">Bookings</a
 							>
 
-							<form on:submit={() => handleDelete(item.id, item.imageLinks, item.spreadSheetId)}>
+							<form
+								on:submit={() =>
+									handleDelete(item.id, item.imageLinks, item.spreadSheetId)}
+							>
 								<button type="submit">Delete</button>
 							</form>
 						</div>
@@ -136,10 +144,10 @@
 </section>
 
 <style>
-    .adoption-details span{
-        color: #7e7e7e;
-        font-weight: 500;
-    }
+	.adoption-details span {
+		color: #7e7e7e;
+		font-weight: 500;
+	}
 	.location_details {
 		display: flex;
 		align-items: center;

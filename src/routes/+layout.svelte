@@ -4,6 +4,8 @@
 	import Foooter from '$lib/components/Foooter.svelte';
 	import Achivements from '$lib/components/Achivements.svelte';
 	import { afterUpdate } from 'svelte';
+	import { onDestroy } from 'svelte';
+	import { auth } from '$lib/stores/authStore';
 
 	let dialog;
 	let page_name;
@@ -12,6 +14,17 @@
 
 	let page_url;
 	$: page_url = $page.url.pathname;
+
+	onDestroy(() => {
+		if (page_name === '/adoptions' || page_name === '/events' || page_name === '/gallery') {
+            console.log(page_name)
+		}
+        else{
+            auth.set(false)
+            console.log(page_name)
+        }
+        console.log($auth)
+	});
 </script>
 
 {#if page_url.includes('/admin') || page_url.includes('/payment')}

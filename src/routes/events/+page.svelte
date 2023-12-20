@@ -3,6 +3,7 @@
 	import { Splide, SplideSlide } from '@splidejs/svelte-splide';
 	import '@splidejs/svelte-splide/css';
 	import { format } from 'date-fns';
+    import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
 
 	let data = [];
 	let dialog = {};
@@ -32,7 +33,7 @@
 
 	const handleSubmit = async (params) => {
 		try {
-			const response = await fetch('http://localhost:5173/api/payment', {
+			const response = await fetch(`${PUBLIC_WEBSITE_LINK}/api/payment`, {
 				method: 'POST',
 				body: JSON.stringify(params),
 				headers: {

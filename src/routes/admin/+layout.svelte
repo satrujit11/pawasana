@@ -1,7 +1,18 @@
 <script>
 	import { page } from '$app/stores';
+	import { onDestroy } from 'svelte';
+	import { auth } from '$lib/stores/authStore';
 	let page_name;
 	$: page_name = $page.url.pathname.substr($page.url.pathname.lastIndexOf('/'));
+	onDestroy(() => {
+		if (page_name === '/adoptions' || page_name === '/events' || page_name === '/gallery') {
+            console.log(page_name)
+		}
+        else{
+            auth.set(false)
+        }
+        console.log($auth)
+	});
 </script>
 
 {#if page_name !== '/admin'}

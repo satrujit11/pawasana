@@ -1,5 +1,6 @@
 import crypto from 'crypto';
 import { bookingData } from '$lib/stores/bookingData';
+import {PUBLIC_WEBSITE_LINK} from '$env/static/public';
 
 let merchantTransactionId,
 	name,
@@ -11,14 +12,14 @@ let merchantTransactionId,
 	pricePaid;
 
 const manageBookingData = async (transactionId) => {
-	let bookingDatas;
+	let bookingInfo;
 	let filteredData;
 	if (fetch) {
 		const unsubscribe = bookingData.subscribe((value) => {
-			bookingDatas = value;
+			bookingInfo = value;
 		});
 
-		filteredData = bookingDatas.filter(
+		filteredData = bookingInfo.filter(
 			(item) => item.merchantTransactionId === merchantTransactionId
 		);
 		await Promise.resolve();
@@ -46,7 +47,7 @@ const manageBookingData = async (transactionId) => {
 
 	console.log('sending data', sending_data);
 	try {
-		const response = await fetch('http://localhost:5173/api/booking', {
+		const response = await fetch(`${PUBLIC_WEBSITE_LINK}/api/booking`, {
 			method: 'POST',
 			body: JSON.stringify({
 				name: name,
@@ -63,7 +64,15 @@ const manageBookingData = async (transactionId) => {
 				'content-type': 'application/json'
 			}
 		});
-		await response.json();
+		const data = await response.json();
+		if (data.status == 200) {
+			bookingData.update((data) => {
+				const newData = data.filter(
+					(item) => item.merchantTransactionId !== merchantTransactionId
+				);
+				return newData;
+			});
+		}
 	} catch (err) {
 		console.log(err);
 		console.log('Error from Here');
@@ -71,37 +80,37 @@ const manageBookingData = async (transactionId) => {
 };
 
 export const load = async ({ params }) => {
-    merchantTransactionId = params.merchantTransactionId;
-    const merchantId = 'PGTESTPAYUAT';
-    const saltkey = '099eb0cd-02cf-4e2a-8aca-3e6c6aff0399';
-    const saltIndex = 1;
-    const string = `/pg/v1/status/${merchantId}/${merchantTransactionId}` + saltkey;
-    const sha256 = crypto.createHash('sha256').update(string).digest('hex');
-    const xVerify = sha256 + '###' + saltIndex;
+	merchantTransactionId = params.merchantTransactionId;
+	const merchantId = 'PGTESTPAYUAT';
+	const saltkey = '099eb0cd-02cf-4e2a-8aca-3e6c6aff0399';
+	const saltIndex = 1;
+	const string = `/pg/v1/status/${merchantId}/${merchantTransactionId}` + saltkey;
+	const sha256 = crypto.createHash('sha256').update(string).digest('hex');
+	const xVerify = sha256 + '###' + saltIndex;
 
-    let response;
-    try {
-        response = await fetch(
-            `https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/${merchantId}/${merchantTransactionId}`,
-            {
-                method: 'GET',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-VERIFY': xVerify,
-                    'X-MERCHANT-ID': merchantId
-                }
-            }
-        );
+	let response;
+	try {
+		response = await fetch(
+			`https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/status/${merchantId}/${merchantTransactionId}`,
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json',
+					'X-VERIFY': xVerify,
+					'X-MERCHANT-ID': merchantId
+				}
+			}
+		);
 
-        if (!response.ok) {
-            throw new Error(`HTTP error! Status: ${response.status}`);
-        }
+		if (!response.ok) {
+			throw new Error(`HTTP error! Status: ${response.status}`);
+		}
 
-        const data = await response.json();
-        await manageBookingData(data.data.transactionId);
-        return { data: data.code };
-    } catch (err) {
-        console.error('Error in fetch:', err);
-        return { data: 'ERROR' };
-    }
+		const data = await response.json();
+		await manageBookingData(data.data.transactionId);
+		return { data: data.code };
+	} catch (err) {
+		console.error('Error in fetch:', err);
+		return { data: 'ERROR' };
+	}
 };

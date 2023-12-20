@@ -69,6 +69,9 @@
 </div>
 
 <style>
+#map-container {
+    position: relative;
+}
 	.content p {
 		display: -webkit-box;
 		-webkit-box-orient: vertical;
