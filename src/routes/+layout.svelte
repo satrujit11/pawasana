@@ -113,7 +113,7 @@
 
 			<slot />
 		</div>
-		{#if page_name != '/refund'}
+		{#if page_name != '/refund' && page_name != '/success'}
 			{#if page_name != '/'}
 				<Achivements />
 			{/if}

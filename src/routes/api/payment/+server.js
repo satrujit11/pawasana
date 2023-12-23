@@ -42,6 +42,7 @@ const paymentRequest = async (payloadMain, xVerify) => {
 		})
 	});
 	const data = await response.json();
+    console.log(data)
 	if (data.success) {
 		const redirectUrl = data.data.instrumentResponse.redirectInfo.url;
 		return { redirectUrl: redirectUrl };
@@ -62,6 +63,13 @@ export async function POST({ request }) {
 		Math.random().toString(36).substring(2, 10) +
 		Math.random().toString(36).substring(2, 10);
 
+	const merchantUserId =
+		name.replace(/\s/g, '').toUpperCase().substring(0, 5) +
+		phoneNumber.toString().substring(0, 10) +
+		eventId.toString() +
+		Date.now().toString();
+
+
 	bookingData.update((arr) => [
 		...arr,
 		{
@@ -72,14 +80,10 @@ export async function POST({ request }) {
 			childTicketNumber: childTicketNumber,
 			AdultTicketNumber: AdultTicketNumber,
 			pricePaid: pricePaid,
-			merchantTransactionId: merchantTransactionId
+			merchantTransactionId: merchantTransactionId,
+            merchantUserId: merchantUserId
 		}
 	]);
-	const merchantUserId =
-		name.replace(/\s/g, '').toUpperCase().substring(0, 5) +
-		phoneNumber.toString().substring(0, 10) +
-		eventId.toString() +
-		Date.now().toString();
 
 	const { payloadMain, xVerify } = setPaymentData(
 		merchantTransactionId,

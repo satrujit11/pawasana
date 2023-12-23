@@ -1,4 +1,7 @@
 {
+	"engines": {
+		"node": "18.18.2"
+	},
 	"name": "pawasana",
 	"version": "0.0.1",
 	"private": true,

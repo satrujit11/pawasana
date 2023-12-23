@@ -7,9 +7,9 @@
 	$: page_name = $page.url.pathname.substr($page.url.pathname.lastIndexOf('/'));
 </script>
 
-<div class="achivements {page_name === '/' || page_name === '/events' ? 'pink-background' : ''}">
+<div class="achivements {page_name === '/' || page_name === '/events' || page_name === '/about' ? 'pink-background' : ''}">
 	<section class="container">
-		<h2 class={page_name === '/' || page_name === '/events' ? 'white-header' : ''}>
+		<h2 class={page_name === '/' || page_name === '/events' || page_name === '/about' ? 'white-header' : ''}>
 			ACHIVEMENTS
 		</h2>
 		<ul class="medias">

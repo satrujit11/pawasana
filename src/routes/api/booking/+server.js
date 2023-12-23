@@ -1,6 +1,8 @@
 import { error, json } from '@sveltejs/kit';
 import db from '$lib/database';
 import { authorize } from '$lib/config/SheetsAuth';
+import crypto from 'crypto';
+// import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
 
 export async function GET() {
 	try {
@@ -60,7 +62,8 @@ export async function POST({ request }) {
 		childTicketNumber,
 		pricePaid,
 		transactionNumber,
-		merchantTransactionId
+		merchantTransactionId,
+		merchantUserId
 	} = datas;
 	if (
 		!name ||
@@ -71,7 +74,8 @@ export async function POST({ request }) {
 		!childTicketNumber ||
 		!pricePaid ||
 		!transactionNumber ||
-		!merchantTransactionId
+		!merchantTransactionId ||
+		!merchantUserId
 	) {
 		return error({ message: 'Missing data' }, { status: 400 });
 	}
@@ -112,7 +116,8 @@ export async function POST({ request }) {
 				childTicketNumber: parseInt(childTicketNumber),
 				pricePaid: parseFloat(pricePaid),
 				transactionNumber,
-				merchantTransactionId
+				merchantTransactionId,
+				merchantUserId
 			}
 		});
 
@@ -124,4 +129,120 @@ export async function POST({ request }) {
 			message: 'Internal Server Error'
 		});
 	}
+}
+
+const refund = async (transactionNumber, merchantTransactionId, amount, merchantUserId) => {
+    const payload = JSON.stringify({
+        merchantId: 'PGTESTPAYUAT',
+        merchantUserId: merchantUserId,
+        merchantTransactionId: merchantTransactionId,
+        originalTransactionId: transactionNumber,
+        amount: amount,
+        callbackUrl: `https://webhook.site/f57576c3-d5bb-473f-8626-7bd71b88500e`
+    });
+
+    const payloadMain = Buffer.from(payload).toString('base64');
+    const saltkey = '099eb0cd-02cf-4e2a-8aca-3e6c6aff0399';
+    const saltIndex = 1;
+    const string = payloadMain + '/pg/v1/refund' + saltkey;
+    const sha256 = crypto.createHash('sha256').update(string).digest('hex');
+    const xVerify = sha256 + '###' + saltIndex;
+    console.log('payloadmain:', payloadMain);
+    console.log('xverify:', xVerify);
+
+    try {
+        const response = await fetch(
+            'https://api-preprod.phonepe.com/apis/pg-sandbox/pg/v1/refund',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-VERIFY': xVerify
+                },
+                body: JSON.stringify({
+                    request: payloadMain
+                })
+            }
+        );
+        const responseData = await response.json();
+        console.log('response data:', responseData);
+
+        if (!response.ok) {
+            throw new Error(`Refund request failed: ${responseData.message}`);
+        }
+
+        return responseData;
+    } catch (err) {
+        console.error(err);
+        throw new Error('Refund request failed');
+    }
+};
+
+export async function DELETE({ request }) {
+    const datas = await request.json();
+    console.log('data from server:', datas);
+    const { email, phoneNumber, transactionId } = datas;
+
+    if (!email || !phoneNumber || !transactionId) {
+        console.error('Missing data:', datas);
+        return error({ message: 'Missing data' }, { status: 400 });
+    }
+
+    try {
+        const booking = await db.booking.findFirst({
+            where: {
+                emailId: email,
+                phoneNumber: phoneNumber,
+                transactionNumber: transactionId
+            }
+        });
+
+        if (!booking) {
+            console.error('Booking not found:', datas);
+            return error({ message: 'Booking not found' }, { status: 404 });
+        }
+        console.log('Transaction Number :', booking.transactionNumber);
+        console.log('Merchant Transaction Id:', booking.merchantTransactionId);
+        console.log('Price Paid:', booking.pricePaid);
+        console.log('MerchantId:', booking.merchantUserId);
+
+        try {
+            const refundResponse = await refund(
+                booking.transactionNumber,
+                booking.merchantTransactionId,
+                booking.pricePaid.toString(),
+                booking.merchantUserId
+            );
+
+            if (!refundResponse) {
+                console.error('Refund failed:', refundResponse);
+                return error({ message: 'Refund failed' }, { status: 500 });
+            }
+
+            console.log('data from database:', booking);
+            await db.booking.update({
+                where: {
+                    id: booking.id
+                },
+                data: {
+                    refundStatus: true
+                }
+            });
+
+            console.log('Booking refunded successfully');
+            return {
+                status: 200,
+                message: 'Booking deleted successfully'
+            };
+        } catch (refundError) {
+            console.error(refundError.message);
+            throw new Error(`Refund request failed: ${refundError.message}`);
+        }
+    } catch (err) {
+        console.error(err);
+        return error({
+            status: 500,
+            message: 'Internal Server Error'
+        });
+    }
 }

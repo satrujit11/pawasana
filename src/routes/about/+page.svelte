@@ -40,21 +40,22 @@
 	</div>
 </section>
 
-<div class="teams-sec">
-	<section class="container teams">
-		<h2>OUR TEAMS</h2>
-		<article>
-			<figure></figure>
-			<figure></figure>
-			<figure></figure>
-			<figure></figure>
-			<figure></figure>
-			<figure></figure>
-		</article>
-	</section>
-</div>
+<!-- <div class="teams-sec"> -->
+<!-- 	<section class="container teams"> -->
+<!-- 		<h2>OUR TEAMS</h2> -->
+<!-- 		<article> -->
+<!-- 			<figure></figure> -->
+<!-- 			<figure></figure> -->
+<!-- 			<figure></figure> -->
+<!-- 			<figure></figure> -->
+<!-- 			<figure></figure> -->
+<!-- 			<figure></figure> -->
+<!-- 		</article> -->
+<!-- 	</section> -->
+<!-- </div> -->
 
 <style>
+/*
 	.teams > article {
 		display: grid;
 		grid-template-columns: 1fr;
@@ -86,7 +87,7 @@
 		color: white;
 		padding-bottom: 2rem;
 	}
-
+*/
 	.details {
 		padding-block: 1rem 6rem;
 	}

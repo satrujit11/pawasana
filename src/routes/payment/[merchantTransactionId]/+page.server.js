@@ -9,7 +9,8 @@ let merchantTransactionId,
 	eventId,
 	childTicketNumber,
 	AdultTicketNumber,
-	pricePaid;
+	pricePaid,
+    merchantUserId
 
 const manageBookingData = async (transactionId) => {
 	let bookingInfo;
@@ -32,6 +33,7 @@ const manageBookingData = async (transactionId) => {
 	AdultTicketNumber = filteredData[0].AdultTicketNumber;
 	childTicketNumber = filteredData[0].childTicketNumber;
 	pricePaid = filteredData[0].pricePaid;
+    merchantUserId = filteredData[0].merchantUserId;
 
 	const sending_data = {
 		name: name,
@@ -42,7 +44,8 @@ const manageBookingData = async (transactionId) => {
 		childTicketNumber: childTicketNumber,
 		pricePaid: pricePaid,
 		transactionNumber: transactionId,
-		merchantTransactionId: merchantTransactionId
+		merchantTransactionId: merchantTransactionId,
+        merchantUserId: merchantUserId
 	};
 
 	console.log('sending data', sending_data);
@@ -58,7 +61,8 @@ const manageBookingData = async (transactionId) => {
 				childTicketNumber: childTicketNumber,
 				pricePaid: pricePaid,
 				transactionNumber: transactionId,
-				merchantTransactionId: merchantTransactionId
+				merchantTransactionId: merchantTransactionId,
+                merchantUserId: merchantUserId
 			}),
 			headers: {
 				'content-type': 'application/json'

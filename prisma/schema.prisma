@@ -63,6 +63,7 @@ model Booking {
     pricePaid Float
     transactionNumber String
     merchantTransactionId String
+    merchantUserId String
     refundStatus Boolean @default(false)
 
     event Event @relation(fields: [eventId], references: [id])
