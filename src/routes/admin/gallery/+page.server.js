@@ -1,7 +1,7 @@
 import { s3Client } from '$lib/config/S3Config.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { extname } from 'path';
-import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
+import { PUBLIC_WEBSITE_LINK, PUBLIC_S3_LINK } from '$env/static/public';
 import { auth } from '$lib/stores/authStore';
 import { redirect } from '@sveltejs/kit';
 
@@ -65,7 +65,7 @@ export const actions = {
 				ACL: 'public-read'
 			};
 			const data = {
-				imageLink: `https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/gallery/${filename}`
+				imageLink: `${ PUBLIC_S3_LINK}/gallery/${filename}`
 			};
 			try {
 				await uploadObject(params);

@@ -21,11 +21,15 @@ export const actions = {
 		});
 
 		const result = await response.json();
-		console.log("error :", result);
-		// if (result.status === 404 || result.status === 400 || result.status === 500 || result.status === 401) {
-		// 	throw redirect(303, '/refund/error');
-		// } else throw redirect(303, '/refund/success');
-        //
-        throw redirect(303, '/refund/success');
+		console.log('error :', result);
+		if (
+			result.status === 404 ||
+			result.status === 400 ||
+			result.status === 500 ||
+			result.status === 401 ||
+			result.message === 'Internal Error'
+		) {
+			throw redirect(303, '/refund/error');
+		} else throw redirect(303, '/refund/success');
 	}
 };

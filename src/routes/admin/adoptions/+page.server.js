@@ -1,7 +1,7 @@
 import { extname } from 'path';
 import { s3Client } from '$lib/config/S3Config.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
+import { PUBLIC_WEBSITE_LINK, PUBLIC_S3_LINK } from '$env/static/public';
 import { auth } from '$lib/stores/authStore';
 import { redirect } from '@sveltejs/kit';
 
@@ -59,7 +59,7 @@ export const actions = {
 			imageFile = Buffer.from(fileContent);
 
 			const params = {
-				Bucket: 'pawasana-dev',
+				Bucket: 'pawasana',
 				Key: `adoptions/${filename}`,
 				Body: imageFile,
 				ACL: 'public-read'
@@ -73,7 +73,7 @@ export const actions = {
 				age: formData?.get('age'),
 				description: formData?.get('description'),
 				tags: formData?.get('tags'),
-				imageLink: `https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/adoptions/${filename}`,
+				imageLink: `${ PUBLIC_S3_LINK}/adoptions/${filename}`,
                 state: formData?.get('state')
 			};
 

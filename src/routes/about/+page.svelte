@@ -1,10 +1,17 @@
+<script>
+	import { PUBLIC_S3_LINK } from '$env/static/public';
+</script>
+
 <div class="main-container">
 	<section class="container banner">
 		<h1>OUR JOURNEY</h1>
-		<div class="banner-image" style="
+		<div
+			class="banner-image"
+			style="
+		background-image: url(https://pawasana.s3.ap-south-1.amazonaws.com/assets/about_header.jpg);
             
-		background-image: url(https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/assets/about_header.jpg);
-        "></div>
+        "
+		></div>
 	</section>
 </div>
 
@@ -13,22 +20,23 @@
 		<h2>HOW IT ALL STARTED</h2>
 		<div>
 			<p>
-				<strong>Introducing the minds behind Pawasana: </strong>Annanya Nautiyal and Anwar Khan. Two
-				years ago, fate brought them together in a hostel in Rishikesh, starting their remarkable
-				journey. They bonded through their love of animals, forming a strong bond that would
-				determine their destiny. Annanya had been rescuing dogs for over 6 years, and with Anwar
-				joining, together they became an invincible dog rescue force. Which later made them realise
-				the on-ground difficulties of adoption and money generation for rescue medical bills and
-				vaccination. Which then gave birth to PAWASANA.
+				<strong>Introducing the minds behind Pawasana: </strong>Annanya Nautiyal and Anwar
+				Khan. Two years ago, fate brought them together in a hostel in Rishikesh, starting
+				their remarkable journey. They bonded through their love of animals, forming a
+				strong bond that would determine their destiny. Annanya had been rescuing dogs for
+				over 6 years, and with Anwar joining, together they became an invincible dog rescue
+				force. Which later made them realise the on-ground difficulties of adoption and
+				money generation for rescue medical bills and vaccination. Which then gave birth to
+				PAWASANA.
 				<br />
 			</p>
 			<p>
-				<strong>Introducing Pawsena: </strong>A cause-led experience in India with Indie rescued
-				dogs to create awareness and provide education for adoption. We aim to create a safe space
-				for our Indies to find love, warmth and home through our workshops.Not only this, by being a
-				part you help us help more animals in need as a portion of the proceeds from you ticket goes
-				to various animal shelters asa donation for expenses like medical bills, food, vaccination
-				and shelter requirements.
+				<strong>Introducing Pawsena: </strong>A cause-led experience in India with Indie
+				rescued dogs to create awareness and provide education for adoption. We aim to
+				create a safe space for our Indies to find love, warmth and home through our
+				workshops.Not only this, by being a part you help us help more animals in need as a
+				portion of the proceeds from you ticket goes to various animal shelters asa donation
+				for expenses like medical bills, food, vaccination and shelter requirements.
 			</p>
 		</div>
 	</article>
@@ -55,7 +63,7 @@
 <!-- </div> -->
 
 <style>
-/*
+	/*
 	.teams > article {
 		display: grid;
 		grid-template-columns: 1fr;

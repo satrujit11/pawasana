@@ -3,6 +3,7 @@ import db from '$lib/database';
 import { s3Client } from '$lib/config/S3Config.js';
 import { DeleteObjectsCommand } from '@aws-sdk/client-s3';
 import { authorize } from '$lib/config/SheetsAuth';
+import { PUBLIC_S3_LINK } from '$env/static/public';
 
 export async function GET(event) {
 	try {
@@ -90,7 +91,7 @@ const deleteSheet = async (spreadsheetId) => {
 			headers: {
 				'Content-Type': 'application/json',
 				Authorization: `Bearer ${auth.access_token}`
-			},
+			}
 		}
 	);
 	if (!driveResponse.ok) {
@@ -115,16 +116,13 @@ export async function DELETE({ request }) {
 	const datas = await request.json();
 	const { id, imageLinks, spreadSheetId } = datas;
 	const imageNames = imageLinks.split(',').map((imageLink) => {
-		const imageName = imageLink.replace(
-			'https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/',
-			''
-		);
+		const imageName = imageLink.replace(`${PUBLIC_S3_LINK}`, '');
 		return { Key: imageName };
 	});
 	console.log(imageNames);
 
 	const deleteParams = {
-		Bucket: 'pawasana-dev',
+		Bucket: 'pawasana',
 		Delete: {
 			Objects: imageNames
 		}
@@ -138,7 +136,7 @@ export async function DELETE({ request }) {
 		});
 		if (result) {
 			await deleteObjects(deleteParams);
-            await deleteSheet(spreadSheetId);
+			await deleteSheet(spreadSheetId);
 			return json({ message: 'Adoption record deleted successfully' });
 		} else {
 			return error({

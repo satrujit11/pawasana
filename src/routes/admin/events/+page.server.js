@@ -5,6 +5,7 @@ import { authorize } from '$lib/config/SheetsAuth';
 import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
 import { auth } from '$lib/stores/authStore';
 import { redirect } from '@sveltejs/kit';
+import { PUBLIC_S3_LINK} from '$env/static/public';
 
 export const load = () => {
     let authStatus = false;
@@ -150,7 +151,7 @@ export const actions = {
 				const imageFile = Buffer.from(fileContent);
 
 				const params = {
-					Bucket: 'pawasana-dev',
+					Bucket: 'pawasana',
 					Key: `events/${filename}`,
 					Body: imageFile,
 					ACL: 'public-read'
@@ -158,7 +159,7 @@ export const actions = {
 
 				await uploadObject(params);
 
-				return `https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/events/${filename}`;
+				return `${PUBLIC_S3_LINK}/events/${filename}`;
 			})
 		);
 

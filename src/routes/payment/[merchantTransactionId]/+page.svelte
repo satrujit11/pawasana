@@ -18,30 +18,33 @@
 </script>
 
 <section class="container">
-	<h1>Payment Status</h1>
-
 	{#if data.data == 'PAYMENT_SUCCESS'}
-		<p>Payment Successful</p>
+		<h1 class="success">Payment Successful</h1>
 		<PaymentReceived />
-	{:else if data.data == 'PAYMENT_ERROR'}
-		<p>Payment Failed</p>
-	{:else if data.data == 'PAYMENT_PENDING'}
-		<p>Payment Pending</p>
-	{:else if data.data == 'PAYMENT_DECLINED'}
-		<p>Payment declined by user</p>
-	{:else if data.data == 'PAYMENT_TIMEOUT'}
-		<p>Payment Timeout</p>
 	{:else}
 		<div class="box">
-			<p class="error">Error in payment</p>
+			<h1 class="error">Error in receiving payment</h1>
+			<span
+				>There is some error fetching the payment status. If the money is deducted from your
+				account, in 24-48 hours it will be refunded.</span
+			>
 		</div>
 	{/if}
-
 	<p class="redirect">Redirecting to home page in {seconds} seconds...</p>
 	<a href="/">Go Home</a>
 </section>
 
 <style>
+	.success {
+		color: green;
+	}
+
+    section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 	h1 {
 		text-align: center;
 		display: block;
@@ -64,16 +67,16 @@
 		text-underline-offset: 0.5rem;
 		font-weight: 500;
 	}
-    .box{
-        display: flex;
-        flex-direction: column;
-    }
+	.box {
+		display: flex;
+		flex-direction: column;
+	}
 
-    .error{
-        color: red;
-        font-size: 2rem;
-    }
-    .redirect {
-        padding-bottom: 2rem;
-    }
+	.error {
+		color: red;
+		font-size: 2rem;
+	}
+	.redirect {
+		padding-bottom: 2rem;
+	}
 </style>

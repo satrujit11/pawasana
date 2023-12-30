@@ -1,11 +1,9 @@
 {
-	"engines": {
-		"node": "18.18.2"
-	},
 	"name": "pawasana",
 	"version": "0.0.1",
 	"private": true,
 	"scripts": {
+        "start": "vite serve",
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",

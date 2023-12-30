@@ -18,7 +18,8 @@
 	let bookingName, bookingEmail, bookingPhoneNumber;
 	let childTicket = 1,
 		adultTicket = 1;
-	$: totalPrice = childTicket * 700 + adultTicket * 1200;
+    $: totalDiscount = Math.floor(adultTicket/2)*400;
+	$: totalPrice = childTicket * 700 + adultTicket * 1200 - Math.floor(adultTicket / 2) * 400;;
 	const fetchdata = async () => {
 		try {
 			const response = await fetch('/api/event/valid');
@@ -243,6 +244,11 @@
 								<span>{adultTicket}</span>
 							</div>
 						{/if}
+
+						<div>
+							<span>Discount</span>
+							<span>₹{totalDiscount}</span>
+						</div>
 						<div>
 							<span>Total Price</span>
 							<span>₹{totalPrice}</span>

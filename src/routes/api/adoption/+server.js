@@ -2,6 +2,7 @@ import { error, json } from '@sveltejs/kit';
 import db from '$lib/database';
 import { s3Client } from '$lib/config/S3Config.js';
 import { DeleteObjectCommand } from '@aws-sdk/client-s3';
+import { PUBLIC_S3_LINK } from '$env/static/public';
 
 export async function GET(event) {
 	try {
@@ -65,9 +66,9 @@ const deleteObject = async (params) => {
 export async function DELETE({ request }) {
 	const datas = await request.json();
 	const { id, imageLink } = datas;
-    const imageName = imageLink.replace('https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/', '');
+    const imageName = imageLink.replace(PUBLIC_S3_LINK, '');
 	const deleteParams = {
-		Bucket: 'pawasana-dev',
+		Bucket: 'pawasana',
 		Key: imageName
 	};
 	try {
