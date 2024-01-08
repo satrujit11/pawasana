@@ -2,7 +2,6 @@ import { extname } from 'path';
 import { s3Client } from '$lib/config/S3Config.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { authorize } from '$lib/config/SheetsAuth';
-import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
 import { auth } from '$lib/stores/authStore';
 import { redirect } from '@sveltejs/kit';
 import { PUBLIC_S3_LINK} from '$env/static/public';
@@ -36,7 +35,7 @@ const uploadObject = async (params) => {
 const handleSubmit = async (params) => {
 	console.log(JSON.stringify(params));
 	try {
-		const response = await fetch(`${PUBLIC_WEBSITE_LINK}/api/event`, {
+		const response = await fetch(`http://0.0.0.0:3000/api/event`, {
 			method: 'POST',
 			body: JSON.stringify(params),
 			headers: {
@@ -151,7 +150,7 @@ export const actions = {
 				const imageFile = Buffer.from(fileContent);
 
 				const params = {
-					Bucket: 'pawasana',
+					Bucket: 'pawasana-dev',
 					Key: `events/${filename}`,
 					Body: imageFile,
 					ACL: 'public-read'

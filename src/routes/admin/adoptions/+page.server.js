@@ -1,7 +1,7 @@
 import { extname } from 'path';
 import { s3Client } from '$lib/config/S3Config.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { PUBLIC_WEBSITE_LINK, PUBLIC_S3_LINK } from '$env/static/public';
+import { PUBLIC_S3_LINK } from '$env/static/public';
 import { auth } from '$lib/stores/authStore';
 import { redirect } from '@sveltejs/kit';
 
@@ -33,7 +33,7 @@ const uploadObject = async (params) => {
 const handleSubmit = async (params) => {
 	console.log(JSON.stringify(params));
 	try {
-		const response = await fetch(`${PUBLIC_WEBSITE_LINK}/api/adoption`, {
+		const response = await fetch(`http://0.0.0.0:3000/api/adoption`, {
 			method: 'POST',
 			body: JSON.stringify(params),
 			headers: {
@@ -59,7 +59,7 @@ export const actions = {
 			imageFile = Buffer.from(fileContent);
 
 			const params = {
-				Bucket: 'pawasana',
+				Bucket: 'pawasana-dev',
 				Key: `adoptions/${filename}`,
 				Body: imageFile,
 				ACL: 'public-read'

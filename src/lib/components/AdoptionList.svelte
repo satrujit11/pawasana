@@ -6,13 +6,9 @@
 
 	let data = [];
 	const fetchdata = async () => {
-		try {
 			const response = await fetch('/api/adoption');
 			data = await response.json();
 			return { data };
-		} catch (err) {
-			console.log(err);
-		}
 	};
 
 	const upperCase = (string) => {

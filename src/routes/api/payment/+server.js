@@ -1,7 +1,6 @@
 import { error, json } from '@sveltejs/kit';
 import { bookingData } from '$lib/stores/bookingData';
 import crypto from 'crypto';
-import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
 
 const setPaymentData = (merchantTransactionId, amount, merchantUserId) => {
 	const payload = JSON.stringify({
@@ -9,7 +8,7 @@ const setPaymentData = (merchantTransactionId, amount, merchantUserId) => {
 		merchantTransactionId: merchantTransactionId,
 		merchantUserId: merchantUserId,
 		amount: amount,
-		redirectUrl: `${PUBLIC_WEBSITE_LINK}/payment/${merchantTransactionId}`,
+		redirectUrl: `www.pawasana.in/payment/${merchantTransactionId}`,
 		redirectMode: 'REDIRECT',
 		mobileNumber: '9999999999',
 		paymentInstrument: {
@@ -52,7 +51,7 @@ const paymentRequest = async (payloadMain, xVerify) => {
 	}
 };
 
-export async function POST({ request }) {
+export async function POST({ request, cookies }) {
 	const datas = await request.json();
 	console.log(datas);
 	const { name, emailId, phoneNumber, eventId, childTicketNumber, AdultTicketNumber, pricePaid } =

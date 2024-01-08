@@ -1,15 +1,15 @@
-
 import { error, json } from '@sveltejs/kit';
 import db from '$lib/database';
 
 export async function GET(event) {
-	try  {
+	try {
 		const galleries = await db.image.findMany({
-            orderBy: {createdAt: 'desc'}
-        });
-        event.setHeaders({
-            'Cache-Control': 'public, max-age=0, s-maxage=1200'
-        })
+			orderBy: { createdAt: 'desc' },
+			take: 6
+		});
+		event.setHeaders({
+			'Cache-Control': 'public, max-age=0, s-maxage=1200'
+		});
 		return json(galleries);
 	} catch (err) {
 		console.log(err);
@@ -23,7 +23,7 @@ export async function GET(event) {
 export async function POST({ request, cookies }) {
 	const datas = await request.json();
 	const { imageLink } = datas;
-	if ( !imageLink) {
+	if (!imageLink) {
 		return json({ message: 'Missing data' }, { status: 400 });
 	}
 

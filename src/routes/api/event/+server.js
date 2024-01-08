@@ -116,13 +116,13 @@ export async function DELETE({ request }) {
 	const datas = await request.json();
 	const { id, imageLinks, spreadSheetId } = datas;
 	const imageNames = imageLinks.split(',').map((imageLink) => {
-		const imageName = imageLink.replace(`${PUBLIC_S3_LINK}`, '');
+		const imageName = imageLink.replace(`${PUBLIC_S3_LINK}/`, '');
 		return { Key: imageName };
 	});
 	console.log(imageNames);
 
 	const deleteParams = {
-		Bucket: 'pawasana',
+		Bucket: 'pawasana-dev',
 		Delete: {
 			Objects: imageNames
 		}

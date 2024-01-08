@@ -2,7 +2,6 @@ import { error, json } from '@sveltejs/kit';
 import db from '$lib/database';
 import { authorize } from '$lib/config/SheetsAuth';
 import crypto from 'crypto';
-// import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
 
 export async function GET() {
 	try {
@@ -166,7 +165,7 @@ const refund = async (transactionNumber, merchantTransactionId, amount, merchant
 		);
 		const responseData = await response.json();
 		// console.log('response data:', responseData);
-        return responseData;
+		return responseData;
 	} catch (err) {
 		console.error(err);
 		throw new Error('Refund request failed');
@@ -216,7 +215,7 @@ export async function DELETE({ request }) {
 				emailId: email,
 				phoneNumber: phoneNumber,
 				transactionNumber: transactionId,
-                refundStatus: false
+				refundStatus: false
 			}
 		});
 
@@ -244,8 +243,8 @@ export async function DELETE({ request }) {
 		// 	console.error('Refund failed:', refundResponse);
 		// 	return error({ message: 'Refund failed' }, { status: 500 });
 		// }
-        
-        // console.log('refundResponse:', refundResponse);
+
+		// console.log('refundResponse:', refundResponse);
 
 		// console.log('data from database:', booking);
 		await db.booking.update({

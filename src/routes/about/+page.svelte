@@ -1,14 +1,10 @@
-<script>
-	import { PUBLIC_S3_LINK } from '$env/static/public';
-</script>
-
 <div class="main-container">
 	<section class="container banner">
 		<h1>OUR JOURNEY</h1>
 		<div
 			class="banner-image"
 			style="
-		background-image: url(https://pawasana.s3.ap-south-1.amazonaws.com/assets/about_header.jpg);
+		background-image: url(https://pawasana-dev.s3.ap-south-1.amazonaws.com/assets/about_header.jpg);
             
         "
 		></div>
@@ -42,9 +38,9 @@
 	</article>
 
 	<div class="images">
-		<figure></figure>
-		<figure></figure>
-		<figure></figure>
+		<figure style="background-image: url(https://pawasana-dev.s3.ap-south-1.amazonaws.com/assets/about-1.jpg)"></figure>
+		<figure style="background-image: url(https://pawasana-dev.s3.ap-south-1.amazonaws.com/assets/about-2.jpg)"></figure>
+		<figure style="background-image: url(https://pawasana-dev.s3.ap-south-1.amazonaws.com/assets/about-3.jpg)"></figure>
 	</div>
 </section>
 
@@ -63,6 +59,7 @@
 <!-- </div> -->
 
 <style>
+  
 	/*
 	.teams > article {
 		display: grid;
@@ -123,6 +120,9 @@
 
 	figure {
 		background-color: yellow;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
 		height: 25rem;
 		border-radius: 1rem;
 	}

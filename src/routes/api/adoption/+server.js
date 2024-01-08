@@ -57,6 +57,7 @@ const deleteObject = async (params) => {
 		console.log(params);
 		const data = await s3Client.send(new DeleteObjectCommand(params));
 		console.log('Successfully deleted object: ' + params.Bucket + '/' + params.Key);
+    console.log(data)
 		return data;
 	} catch (err) {
 		console.log('Error', err);
@@ -66,9 +67,9 @@ const deleteObject = async (params) => {
 export async function DELETE({ request }) {
 	const datas = await request.json();
 	const { id, imageLink } = datas;
-    const imageName = imageLink.replace(PUBLIC_S3_LINK, '');
+	const imageName = imageLink.replace(`${PUBLIC_S3_LINK}/`, '');
 	const deleteParams = {
-		Bucket: 'pawasana',
+		Bucket: 'pawasana-dev',
 		Key: imageName
 	};
 	try {
@@ -79,7 +80,7 @@ export async function DELETE({ request }) {
 		});
 
 		if (result) {
-	        await deleteObject(deleteParams);
+			await deleteObject(deleteParams);
 			return json({ message: 'Adoption record deleted successfully' });
 		} else {
 			return error({

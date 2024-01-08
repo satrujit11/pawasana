@@ -29,6 +29,9 @@
 <Gallery />
 
 <style>
+  section {
+    margin-bottom: 4rem;
+  }
 	button:disabled {
 		background-color: #f2c7d6;
 	}

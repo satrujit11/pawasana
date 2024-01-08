@@ -1,4 +1,3 @@
-import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
 import { redirect } from '@sveltejs/kit';
 
 export const actions = {
@@ -8,7 +7,7 @@ export const actions = {
 		const phoneNumber = data.get('phoneNumber');
 		const transactionId = data.get('transactionId');
 
-		const response = await fetch(`${PUBLIC_WEBSITE_LINK}/api/booking`, {
+		const response = await fetch(`http://0.0.0.0:3000/api/booking`, {
 			method: 'DELETE',
 			headers: {
 				'Content-Type': 'application/json'

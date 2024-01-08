@@ -3,10 +3,29 @@
 	import AdoptionList from '$lib/components/AdoptionList.svelte';
 	import Gallery from '$lib/components/Gallery.svelte';
 	import FutureEvent from './FutureEvent.svelte';
+	import { onMount } from 'svelte';
+
+	onMount(() => {
+    const vid = document.getElementById('vid');
+    vid.muted = true;
+		vid.play();
+	});
 </script>
 
 <header>
 	<div class="banner">
+		<video width="100%" height="100%" autoplay="true" loop muted playsinline id="vid">
+			<source
+				src="https://pawasana-dev.s3.ap-south-1.amazonaws.com/assets/pawasana-intro.webm"
+				type="video/webm"
+			/>
+			<source
+				src="https://pawasana-dev.s3.ap-south-1.amazonaws.com/assets/pawasana-intro.mp4"
+				type="video/mp4"
+			/>
+			<track kind="captions" />
+			Your browser does not support the video tag.
+		</video>
 	</div>
 </header>
 <div class="blank-space">
@@ -23,12 +42,11 @@
 	<article>
 		<h2>PAWSITIVE IMPACT BY PAWASANA AND OUR INDIES.</h2>
 		<p>
-			Pawasana has assisted around 30+ adoptions across different parts of India within a
-			period of less than a year. When you buy a ticket for our workshop, a portion of the
-			proceeds are donated to the participating NGO or organisation. A wallet is also
-			maintained through our workshops to pay for medical bills for rescues, vaccination
-			drives, and food for rescues. Help us change the world one ticket at a time by joining
-			us!
+			Pawasana has assisted around 30+ adoptions across different parts of India within a period of
+			less than a year. When you buy a ticket for our workshop, a portion of the proceeds are
+			donated to the participating NGO or organisation. A wallet is also maintained through our
+			workshops to pay for medical bills for rescues, vaccination drives, and food for rescues. Help
+			us change the world one ticket at a time by joining us!
 		</p>
 		<a href="/adoptions">CHOOSE ADOPTION</a>
 	</article>
@@ -45,10 +63,10 @@
 		<article class="container">
 			<h2>PAWRENTS WANTED</h2>
 			<p class="semi-container">
-				When you make the compassionate choice to rescue a dog, you are extending a lifeline
-				to a precious furry companion who is longing for a fresh start. By opening your
-				heart and home, you are not only granting them a safe haven, but also a future
-				brimming with joyous tail wags and boundless affection.
+				When you make the compassionate choice to rescue a dog, you are extending a lifeline to a
+				precious furry companion who is longing for a fresh start. By opening your heart and home,
+				you are not only granting them a safe haven, but also a future brimming with joyous tail
+				wags and boundless affection.
 			</p>
 		</article>
 
@@ -64,10 +82,11 @@
 	<article>
 		<h2>MEET OUR TEAM AND DIG INTO OUR DOGGO JOURNEY</h2>
 		<p>
-			A cause-led experience for Indies in India was introduced for the first time to educate
-			about adoptions and create awareness through our workshops. The vision is to create
-			India a better place for our Indie dogs/cats and to break the stigma of buying dogs and
-			choose to <strong>#adoptdontshop</strong>.
+			A cause-led experience for Indies in India was introduced for the first time to educate about
+			adoptions and create awareness through our workshops. The vision is to create India a better
+			place for our Indie dogs/cats and to break the stigma of buying dogs and choose to <strong
+				>#adoptdontshop</strong
+			>.
 		</p>
 		<a href="/about">MORE ABOUT US</a>
 	</article>
@@ -80,6 +99,9 @@
 </section>
 
 <style>
+	video {
+		object-fit: cover;
+	}
 	.gallery h2 {
 		font-size: clamp(3.5rem, 5vw, 6rem);
 		display: block;
@@ -296,5 +318,6 @@
 		background-repeat: no-repeat;
 		background-position: center center;
 		background-size: cover;
+		pointer-events: none;
 	}
 </style>

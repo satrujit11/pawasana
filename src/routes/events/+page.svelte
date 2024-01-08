@@ -3,7 +3,6 @@
 	import { Splide, SplideSlide } from '@splidejs/svelte-splide';
 	import '@splidejs/svelte-splide/css';
 	import { format } from 'date-fns';
-    import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
 
 	let data = [];
 	let dialog = {};
@@ -18,8 +17,8 @@
 	let bookingName, bookingEmail, bookingPhoneNumber;
 	let childTicket = 1,
 		adultTicket = 1;
-    $: totalDiscount = Math.floor(adultTicket/2)*400;
-	$: totalPrice = childTicket * 700 + adultTicket * 1200 - Math.floor(adultTicket / 2) * 400;;
+	$: totalDiscount = Math.floor(adultTicket / 2) * 400;
+	$: totalPrice = childTicket * 700 + adultTicket * 1200 - Math.floor(adultTicket / 2) * 400;
 	const fetchdata = async () => {
 		try {
 			const response = await fetch('/api/event/valid');
@@ -34,7 +33,7 @@
 
 	const handleSubmit = async (params) => {
 		try {
-			const response = await fetch(`${PUBLIC_WEBSITE_LINK}/api/payment`, {
+			const response = await fetch(`/api/payment`, {
 				method: 'POST',
 				body: JSON.stringify(params),
 				headers: {
@@ -42,8 +41,8 @@
 				}
 			});
 			const data = await response.json();
-            window.location.href = data.redirect_url
-            console.log(data)
+			window.location.href = data.redirect_url;
+			console.log(data);
 		} catch (err) {
 			console.log(err);
 		}
@@ -58,7 +57,7 @@
 			eventId: eventId,
 			childTicketNumber: childTicket,
 			AdultTicketNumber: adultTicket,
-			pricePaid: totalPrice,
+			pricePaid: totalPrice
 		};
 		console.log(bookingData);
 
@@ -87,9 +86,7 @@
 </div>
 <section class="container events-list">
 	<div class="state-buttons">
-		<button on:click={() => (selectedState = '')} class:active={selectedState === ''}
-			>All</button
-		>
+		<button on:click={() => (selectedState = '')} class:active={selectedState === ''}>All</button>
 		{#each uniqueStates as state (state)}
 			<button class:active={selectedState === state} on:click={() => (selectedState = state)}>
 				{state}
@@ -100,26 +97,16 @@
 		{#each filteredData as item (item.id)}
 			<button on:click={() => dialog[item.id].showModal()} class="card">
 				<article>
-					<div
-						class="image"
-						style="background-image: url({item.imageLinks.split(',')[0]});"
-					></div>
+					<div class="image" style="background-image: url({item.imageLinks.split(',')[0]});"></div>
 					<div class="content">
 						<div class="adoption-details">
 							<div>
 								<h3>{item.name}</h3>
-								<span
-									>{format(
-										new Date(item.eventDate),
-										'EEE MMM dd yyyy h:mm a'
-									)}</span
-								>
+								<span>{format(new Date(item.eventDate), 'EEE MMM dd yyyy h:mm a')}</span>
 							</div>
 							<p class="event-description">{item.description}</p>
 							<div class="location_details">
-								<i class="material-symbols-outlined location">
-									location_on
-								</i>{item.Landmark +
+								<i class="material-symbols-outlined location"> location_on </i>{item.Landmark +
 									', ' +
 									item.area_and_street +
 									', ' +
@@ -151,13 +138,10 @@
 					<div class="adoption-details dialog-adoption_details">
 						<div>
 							<h3>{item.name}</h3>
-							<span>{format(new Date(item.eventDate), 'EEE MMM dd yyyy h:mm a')}</span
-							>
+							<span>{format(new Date(item.eventDate), 'EEE MMM dd yyyy h:mm a')}</span>
 						</div>
 						<div class="location_details">
-							<i class="material-symbols-outlined location">
-								location_on
-							</i>{item.Landmark +
+							<i class="material-symbols-outlined location"> location_on </i>{item.Landmark +
 								', ' +
 								item.area_and_street +
 								', ' +
@@ -174,7 +158,9 @@
 							<label for="childTicket">Number of children</label>
 							<div class="ticket-count">
 								<button on:click={() => childTicket--} disabled={childTicket <= 0}
-									><span class="material-symbols-outlined"> remove </span></button
+									><span class="material-symbols-outlined ticket-count-button-span">
+										remove
+									</span></button
 								>
 								<input
 									type="number"
@@ -183,7 +169,9 @@
 									name="childTicket"
 								/>
 								<button on:click={() => childTicket++}
-									><span class="material-symbols-outlined"> add </span></button
+									><span class="material-symbols-outlined ticket-count-button-span">
+										add
+									</span></button
 								>
 							</div>
 						</div>
@@ -192,7 +180,9 @@
 
 							<div class="ticket-count">
 								<button on:click={() => adultTicket--} disabled={adultTicket <= 0}
-									><span class="material-symbols-outlined"> remove </span></button
+									><span class="material-symbols-outlined ticket-count-button-span">
+										remove
+									</span></button
 								>
 								<input
 									type="number"
@@ -201,7 +191,9 @@
 									name="adultTicket"
 								/>
 								<button on:click={() => adultTicket++}
-									><span class="material-symbols-outlined"> add </span></button
+									><span class="material-symbols-outlined ticket-count-button-span">
+										add
+									</span></button
 								>
 							</div>
 						</div>
@@ -258,18 +250,8 @@
 				<div>
 					<h2>Fill the below details to list a new adoption.</h2>
 					<form on:submit|preventDefault={handlePayment(item.id)} method="post">
-						<input
-							type="text"
-							bind:value={bookingName}
-							name="name"
-							placeholder="Name"
-						/>
-						<input
-							type="email"
-							bind:value={bookingEmail}
-							name="email"
-							placeholder="Email"
-						/>
+						<input type="text" bind:value={bookingName} name="name" placeholder="Name" />
+						<input type="email" bind:value={bookingEmail} name="email" placeholder="Email" />
 						<input
 							type="number"
 							bind:value={bookingPhoneNumber}
@@ -291,10 +273,10 @@
 </section>
 
 <style>
-    .adoption-details > div > span{
-        font-weight: 500;
-        color: #8e8e8e;
-    }
+	.adoption-details > div > span {
+		font-weight: 500;
+		color: #8e8e8e;
+	}
 	.submit-button:disabled {
 		opacity: 0.5;
 	}
@@ -363,7 +345,7 @@
 		font-size: 1.5rem;
 		padding-block: 0.5rem;
 	}
-	.ticket-count button span {
+	.ticket-count-button-span {
 		background-color: var(--yellow);
 		padding: 0.5rem;
 		border-radius: 0.3rem;
@@ -455,6 +437,7 @@
 		background-color: #f5f5f5;
 		border-radius: 1.5rem;
 		width: -webkit-fill-available;
+    width: -moz-available;
 		&:focus {
 			border: none;
 			background-color: #f5f5f5;

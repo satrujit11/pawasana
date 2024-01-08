@@ -1,6 +1,5 @@
 import crypto from 'crypto';
 import { bookingData } from '$lib/stores/bookingData';
-import {PUBLIC_WEBSITE_LINK} from '$env/static/public';
 
 let merchantTransactionId,
 	name,
@@ -50,7 +49,7 @@ const manageBookingData = async (transactionId) => {
 
 	console.log('sending data', sending_data);
 	try {
-		const response = await fetch(`${PUBLIC_WEBSITE_LINK}/api/booking`, {
+		const response = await fetch(`http://0.0.0.0:3000/api/booking`, {
 			method: 'POST',
 			body: JSON.stringify({
 				name: name,

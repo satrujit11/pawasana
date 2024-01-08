@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 	import { Splide, SplideSlide } from '@splidejs/svelte-splide';
-	import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
 	import '@splidejs/svelte-splide/css';
 
 	let data = [];
@@ -27,7 +26,7 @@
 
 	const handleDelete = async (adoptionId, imageLinks, spreadSheetId) => {
 		try {
-			const response = await fetch(`${PUBLIC_WEBSITE_LINK}/api/event`, {
+			const response = await fetch(`/api/event`, {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json'
@@ -60,19 +59,14 @@
 		{#each data as item (item.id)}
 			<button on:click={() => dialog[item.id].showModal()} class="card">
 				<article>
-					<div
-						class="image"
-						style="background-image: url({item.imageLinks.split(',')[0]});"
-					></div>
+					<div class="image" style="background-image: url({item.imageLinks.split(',')[0]});"></div>
 					<div class="content">
 						<div class="adoption-details">
 							<h3>{item.name}</h3>
 							<span>{new Date(item.eventDate)}</span>
 							<p>{item.description}</p>
 							<div class="location_details">
-								<i class="material-symbols-outlined location">
-									location_on
-								</i>{item.Landmark +
+								<i class="material-symbols-outlined location"> location_on </i>{item.Landmark +
 									', ' +
 									item.area_and_street +
 									', ' +
@@ -89,11 +83,10 @@
 								target="_blank">Bookings</a
 							>
 
-							<form
-								on:submit={() =>
-									handleDelete(item.id, item.imageLinks, item.spreadSheetId)}
-							>
-								<button type="submit">Delete</button>
+							<form on:submit={() => handleDelete(item.id, item.imageLinks, item.spreadSheetId)}>
+								<button type="submit" on:click|stopPropagation={(e) => e.stopPropagation()}
+									>Delete</button
+								>
 							</form>
 						</div>
 					</div>
@@ -116,9 +109,7 @@
 						<span>{new Date(item.eventDate)}</span>
 						<p>{item.description}</p>
 						<div class="location_details">
-							<i class="material-symbols-outlined location">
-								location_on
-							</i>{item.Landmark +
+							<i class="material-symbols-outlined location"> location_on </i>{item.Landmark +
 								', ' +
 								item.area_and_street +
 								', ' +
@@ -130,9 +121,8 @@
 						</div>
 					</div>
 					<div class="actions">
-						<a
-							href={`https://docs.google.com/spreadsheets/d/${item.spreadSheetId}`}
-							target="_blank">Bookings</a
+						<a href={`https://docs.google.com/spreadsheets/d/${item.spreadSheetId}`} target="_blank"
+							>Bookings</a
 						>
 					</div>
 				</div>
@@ -205,7 +195,7 @@
 		box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.25);
 	}
 	section {
-		margin-bottom: 8rem;
+		margin-bottom: 4rem;
 	}
 
 	.image {
@@ -228,6 +218,7 @@
 		justify-self: stretch;
 		color: var(--pink);
 		width: -webkit-fill-available;
+		width: -moz-available;
 		&:hover {
 			background-color: var(--pink);
 			color: white;

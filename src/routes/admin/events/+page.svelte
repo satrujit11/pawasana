@@ -268,6 +268,7 @@
 		background-color: #f5f5f5;
 		border-radius: 1.5rem;
 		width: -webkit-fill-available;
+		width: -moz-available;
 		&:focus {
 			border: none;
 			background-color: #f5f5f5;

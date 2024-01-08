@@ -6,7 +6,7 @@
 	<header class="container">
 		<div class="header-image">
 			<img
-				src="https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/assets/adoption-header1.png"
+				src="https://pawasana-dev.s3.ap-south-1.amazonaws.com/assets/adoption-header1.png"
 				alt="CuteDog"
 				loading="eager"
 			/>
@@ -29,32 +29,30 @@
 		<h2>WHY CHOOSE ADOPTION ?</h2>
 		<div>
 			<p>
-				Many breeders treat animals unethically for profit. Animals are often mistreated in
-				the breeding industry. Many dogs live in overcrowded, unclean kennels without
-				sufficient care, socializing, or veterinary care. This environment impacts these
-				creature’s physical, mental, and emotional health. Such breeding practices push
-				animals into shelters. Negligent breeding causes many of these creatures to be
-				abandoned, surrendered, or saved. The number of animals in need of homes, care, and
-				affection overwhelms shelters.
+				Many breeders treat animals unethically for profit. Animals are often mistreated in the
+				breeding industry. Many dogs live in overcrowded, unclean kennels without sufficient care,
+				socializing, or veterinary care. This environment impacts these creature’s physical, mental,
+				and emotional health. Such breeding practices push animals into shelters. Negligent breeding
+				causes many of these creatures to be abandoned, surrendered, or saved. The number of animals
+				in need of homes, care, and affection overwhelms shelters.
 			</p>
 
 			<p>
-				By opening your heart and home to these deserving animals, you're not only providing
-				them with a second chance, but also creating a bond that will bring immeasurable
-				happiness to both of your lives. Discover the heartwarming opportunity to transform
-				the life of a precious paw companion. Within the walls of shelters, countless dogs
-				yearn for the warmth of a loving home, adoption not only chances their lives it
-				changes your too.
+				By opening your heart and home to these deserving animals, you're not only providing them
+				with a second chance, but also creating a bond that will bring immeasurable happiness to
+				both of your lives. Discover the heartwarming opportunity to transform the life of a
+				precious paw companion. Within the walls of shelters, countless dogs yearn for the warmth of
+				a loving home, adoption not only chances their lives it changes your too.
 			</p>
 		</div>
 	</section>
 </div>
 
 <style>
-    .header-image{
-        width: 100%;
-        height: clamp(25rem, 80vw + 6rem, 50rem);
-    }
+	.header-image {
+		width: 100%;
+		height: clamp(25rem, 80vw + 6rem, 50rem);
+	}
 	.adoption-reason {
 		padding-block: clamp(5rem, 8vw, 10rem);
 	}
@@ -120,6 +118,7 @@
 	}
 	.header-background {
 		background-color: var(--yellow);
+    overflow: hidden;
 	}
 	.adoption-list > h2 {
 		display: block;

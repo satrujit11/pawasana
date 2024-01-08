@@ -60,7 +60,7 @@
 		aspect-ratio: 43 / 28;
 		background:
 			linear-gradient(180deg, rgba(0, 0, 0, 0) 39.75%, #000 100%),
-			url('https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/assets/achivement-1.png'),
+			url('https://pawasana-dev.s3.ap-south-1.amazonaws.com/assets/achivement-1.png'),
 			lightgray 50% / cover no-repeat;
 		background-position: center;
 		background-size: cover;
@@ -72,7 +72,7 @@
 		aspect-ratio: 43 / 28;
 		background:
 			linear-gradient(180deg, rgba(0, 0, 0, 0) 39.75%, #000 100%),
-			url('https://pawasana-dev.blr1.cdn.digitaloceanspaces.com/assets/achivement-2.png'),
+			url('https://pawasana-dev.s3.ap-south-1.amazonaws.com/assets/achivement-2.png'),
 			lightgray 50% / cover no-repeat;
 		background-position: center;
 		background-size: cover;

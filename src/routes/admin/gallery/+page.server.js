@@ -1,7 +1,7 @@
 import { s3Client } from '$lib/config/S3Config.js';
 import { PutObjectCommand } from '@aws-sdk/client-s3';
 import { extname } from 'path';
-import { PUBLIC_WEBSITE_LINK, PUBLIC_S3_LINK } from '$env/static/public';
+import { PUBLIC_S3_LINK } from '$env/static/public';
 import { auth } from '$lib/stores/authStore';
 import { redirect } from '@sveltejs/kit';
 
@@ -33,7 +33,7 @@ const uploadObject = async (params) => {
 const handleSubmit = async (params) => {
 	console.log(JSON.stringify(params));
 	try {
-		const response = await fetch(`${PUBLIC_WEBSITE_LINK}/api/gallery`, {
+		const response = await fetch(`http://0.0.0.0:3000/api/gallery`, {
 			method: 'POST',
 			body: JSON.stringify(params),
 			headers: {
@@ -65,7 +65,7 @@ export const actions = {
 				ACL: 'public-read'
 			};
 			const data = {
-				imageLink: `${ PUBLIC_S3_LINK}/gallery/${filename}`
+				imageLink: `${ PUBLIC_S3_LINK }/gallery/${filename}`
 			};
 			try {
 				await uploadObject(params);

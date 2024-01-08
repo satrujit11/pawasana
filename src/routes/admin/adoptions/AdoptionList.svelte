@@ -1,7 +1,6 @@
 <script>
 	import { onMount } from 'svelte';
 	import { page } from '$app/stores';
-    import { PUBLIC_WEBSITE_LINK } from '$env/static/public';
 
 	let data = [];
 	let uniqueStates = [];
@@ -24,7 +23,7 @@
 	};
 	const handleDelete = async (adoptionId, imageLink) => {
 		try {
-			const response = await fetch(`${PUBLIC_WEBSITE_LINK}/api/adoption`, {
+			const response = await fetch(`/api/adoption`, {
 				method: 'DELETE',
 				headers: {
 					'Content-Type': 'application/json'
@@ -55,9 +54,7 @@
 
 <section>
 	<div class="state-buttons">
-		<button on:click={() => (selectedState = '')} class:active={selectedState === ''}
-			>All</button
-		>
+		<button on:click={() => (selectedState = '')} class:active={selectedState === ''}>All</button>
 		{#each uniqueStates as state (state)}
 			<button class:active={selectedState === state} on:click={() => (selectedState = state)}>
 				{state}
@@ -85,7 +82,7 @@
 					</div>
 					{#if page_url.includes('/admin')}
 						<div class="actions">
-							<form on:submit = {() => handleDelete(item.id, item.imageLink)}>
+							<form on:submit={() => handleDelete(item.id, item.imageLink)}>
 								<button type="submit">Delete</button>
 							</form>
 						</div>
@@ -102,6 +99,9 @@
 </section>
 
 <style>
+  section{
+    margin-bottom: 4rem;
+  }
 	.state-buttons {
 		display: flex;
 		gap: 1rem;
@@ -135,7 +135,8 @@
 		font-size: 1.5rem;
 		justify-self: stretch;
 		color: var(--pink);
-        width: -webkit-fill-available;
+		width: -webkit-fill-available;
+		width: -moz-available;
 		&:hover {
 			background-color: var(--pink);
 			color: white;

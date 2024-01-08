@@ -24,7 +24,7 @@
 	div {
 		display: flex;
 		flex-direction: column;
-        justify-content: center;
+		justify-content: center;
 		height: calc(100vh - 10rem);
 	}
 	form {
@@ -35,12 +35,14 @@
 	}
 	input {
 		width: -webkit-fill-available;
+		width: -moz-available;
 		background-color: #f5f5f5;
 		padding: 1rem;
 		border-radius: 1.5rem;
 	}
 	button {
 		width: -webkit-fill-available;
+		width: -moz-available;
 		background-color: var(--pink);
 		border-radius: 1.5rem;
 		font-family: var(--font-anton);
