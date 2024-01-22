@@ -379,7 +379,7 @@
 		color: white;
 		background: var(--dark-50);
 		padding: 0.4rem;
-		border-radius: 50%;
+		border-radius: 60px;
 	}
 	.innerDialog > button {
 		padding: 1.5rem 0;
@@ -393,7 +393,7 @@
 	.innerDialog > button > i {
 		padding: 0.3rem;
 		background-color: white;
-		border-radius: 50%;
+		border-radius: 60px;
 		margin-inline: 1.5rem;
 
 		color: var(--dark-50);
@@ -528,7 +528,7 @@
 	dialog i {
 		padding: 0.3rem;
 		background-color: white;
-		border-radius: 50%;
+		border-radius: 60px;
 	}
 	dialog .image {
 		width: 100%;

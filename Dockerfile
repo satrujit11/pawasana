@@ -15,8 +15,8 @@ RUN pnpm install
 COPY . .
 
 # Expose the port on which your application runs
-EXPOSE 3000
+EXPOSE 80
 
 # Start the server
-CMD ["pnpm", "run", "express"]
+CMD ["npm", "run", "express"]
 

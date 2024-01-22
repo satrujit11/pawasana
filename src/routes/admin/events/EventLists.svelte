@@ -148,7 +148,7 @@
 		color: white;
 		background: var(--dark-50);
 		padding: 0.4rem;
-		border-radius: 50%;
+		border-radius: 60px;
 	}
 	dialog h3 {
 		font-size: 3rem;
@@ -175,7 +175,7 @@
 	dialog i {
 		padding: 0.3rem;
 		background-color: white;
-		border-radius: 50%;
+		border-radius: 60px;
 	}
 	dialog .image {
 		width: 100%;

@@ -11,7 +11,7 @@
 		<ul>
 			<h2>IMPORTANT LINK</h2>
 			<ul>
-				<li><a href="https://poonch.com">Poonch</a></li>
+				<li><a href="https://wearapaw.com">WEARAPAW</a></li>
 				<li><a href="https://pawasana.com">Pawasana</a></li>
 				<li><a href="/refund">Refund</a></li>
 			</ul>

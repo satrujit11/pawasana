@@ -12,10 +12,10 @@ app.get('/healthcheck', (req, res) => {
 
 app.use(handler);
 
-const PORT = 3000;
-const HOST = '0.0.0.0'
+const port = 80;
+const host = '0.0.0.0'
 
-app.listen(PORT, HOST, () => {
-  console.log(`Listening on port ${PORT}`);
+app.listen(port, host, () => {
+  console.log(`listening on port ${port}`);
 });
 

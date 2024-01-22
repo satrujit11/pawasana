@@ -7,7 +7,7 @@ export const actions = {
         const email = formData.get('email');
         const password = formData.get('password');
         let authStatus;
-        if (email === "satrucreation@gmail.com" && password === "12345678") {
+        if (email === "yogaforacause@pawasana.in" && password === "12345678") {
             auth.set(true);
         }
 
@@ -20,7 +20,7 @@ export const actions = {
 
         console.log(authStatus);
 
-        if (email === "satrucreation@gmail.com" && password === "12345678" && authStatus) {
+        if (email === "yogaforacause@pawasana.in" && password === "12345678" && authStatus) {
             throw redirect(302, '/admin/adoptions');
         } else {
             console.log("invalid credentials");

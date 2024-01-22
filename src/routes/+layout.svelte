@@ -17,13 +17,12 @@
 
 	onDestroy(() => {
 		if (page_name === '/adoptions' || page_name === '/events' || page_name === '/gallery') {
-            console.log(page_name)
+			console.log(page_name);
+		} else {
+			auth.set(false);
+			console.log(page_name);
 		}
-        else{
-            auth.set(false)
-            console.log(page_name)
-        }
-        console.log($auth)
+		console.log($auth);
 	});
 </script>
 
@@ -42,30 +41,20 @@
 								<a href="/" class={page_name == '/' ? 'navitem_color' : ''}>Home</a>
 							</li>
 							<li>
-								<a
-									href="/events"
-									class={page_name == '/events' ? 'navitem_color' : ''}>Events</a
-								>
+								<a href="/events" class={page_name == '/events' ? 'navitem_color' : ''}>Events</a>
 							</li>
 							<li>
-								<a
-									href="/adoptions"
-									class={page_name == '/adoptions' ? 'navitem_color' : ''}
+								<a href="/adoptions" class={page_name == '/adoptions' ? 'navitem_color' : ''}
 									>Adoptions</a
 								>
 							</li>
 							<li>
-								<a
-									href="/about"
-									class={page_name == '/about' ? 'navitem_color' : ''}>About</a
-								>
+								<a href="/about" class={page_name == '/about' ? 'navitem_color' : ''}>About</a>
 							</li>
 						</ul>
 					</nav>
 					<div>
-						<a href="https://www.google.com" class="main-action" target="_blank"
-							>Poonch</a
-						>
+						<a href="https://www.wearapaw.com" class="main-action" target="_blank">WEARAPAW</a>
 						<button on:click={() => dialog.showModal()}
 							><i class="material-symbols-outlined menu-draw">menu</i></button
 						>
@@ -79,30 +68,20 @@
 							<nav>
 								<ul>
 									<li>
-										<a href="/" class={page_name == '/' ? 'navitem_color' : ''}
-											>Home</a
-										>
+										<a href="/" class={page_name == '/' ? 'navitem_color' : ''}>Home</a>
 									</li>
 									<li>
-										<a
-											href="/events"
-											class={page_name == '/events' ? 'navitem_color' : ''}
+										<a href="/events" class={page_name == '/events' ? 'navitem_color' : ''}
 											>Events</a
 										>
 									</li>
 									<li>
-										<a
-											href="/adoptions"
-											class={page_name == '/adoptions' ? 'navitem_color' : ''}
+										<a href="/adoptions" class={page_name == '/adoptions' ? 'navitem_color' : ''}
 											>Adoptions</a
 										>
 									</li>
 									<li>
-										<a
-											href="/about"
-											class={page_name == '/about' ? 'navitem_color' : ''}
-											>About</a
-										>
+										<a href="/about" class={page_name == '/about' ? 'navitem_color' : ''}>About</a>
 									</li>
 								</ul>
 							</nav>
